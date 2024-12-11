@@ -36,4 +36,6 @@ def frames(run1: pl.DataFrame, run2: pl.DataFrame) -> pl.DataFrame:
     merge = run1.join(
         run2, on=["tissue", "chain", "tissue_id"], how="full", suffix="_run2"
     )
+    merge = merge.fill_null(0)
+
     return merge
