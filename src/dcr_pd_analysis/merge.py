@@ -8,6 +8,7 @@ def frames(run1: pl.DataFrame, run2: pl.DataFrame) -> pl.DataFrame:
         pl.col("unique_molecule_count").sum().alias("total_transcripts"),
         pl.col("unique_molecule_count").len().alias("unique_transcripts"),
     )
+    run1 = run1.with_columns(pl.col("tissue_id").cast(pl.Int8))
     run2 = run2.select(
         [
             "tissue",
@@ -31,6 +32,7 @@ def frames(run1: pl.DataFrame, run2: pl.DataFrame) -> pl.DataFrame:
             }
         )
     )
+    run2 = run2.with_columns(pl.col("tissue_id").cast(pl.Int8))
     merge = run1.join(
         run2, on=["tissue", "chain", "tissue_id"], how="full", suffix="_run2"
     )
