@@ -1,0 +1,75 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "dcr-pd-analysis"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "kaleido" },
+    { name = "plotly" },
+    { name = "polars" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "kaleido", specifier = "==0.1" },
+    { name = "plotly", specifier = ">=5.24.1" },
+    { name = "polars", specifier = ">=1.17.1" },
+]
+
+[[package]]
+name = "kaleido"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/22/f1/8069e549e88b74e28337acb8f5062f90da76734f81222a848be1f960de64/kaleido-0.1.0-py2.py3-none-macosx_10_10_x86_64.whl", hash = "sha256:6a73cd4a69609490f7e13e43e77724d254aef28b062babad120b32e6f32968c2", size = 69489943 },
+    { url = "https://files.pythonhosted.org/packages/83/39/1c960a971f8d27e6aa4f1462dc048275c98bbb46f16871269ba941bb4a04/kaleido-0.1.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:8d0403b1eb21080e09d6d728c1ea7170fd4763c415fe89dfea6edf35ec36f8e7", size = 74638312 },
+    { url = "https://files.pythonhosted.org/packages/88/50/f3750870a1a0cb2f404d0ab20dc70be969438732346269f263776cc5d810/kaleido-0.1.0-py2.py3-none-manylinux2014_aarch64.whl", hash = "sha256:f3de8e08764115f529351208d689ff80523aa1e9fc0018d342af857f94e3b44e", size = 77506746 },
+    { url = "https://files.pythonhosted.org/packages/be/14/1e261ed51fba419ae987bd6726d9114077d5200d1e2b9c67cca66ca73293/kaleido-0.1.0-py2.py3-none-win32.whl", hash = "sha256:c583ed02b2c50a17e11ee3faec76f7d5f9898f8915f8877b583c5f83d0094e91", size = 53233667 },
+    { url = "https://files.pythonhosted.org/packages/6f/4e/7ea7a4f7f2cb76d7d7fdac129bcb3fa051d02a538ecf6a05d69d0cf155bb/kaleido-0.1.0-py2.py3-none-win_amd64.whl", hash = "sha256:949e3fc01c56cdca0226e866277cfb5e1b4bf66b5d4045ca43a3211f61bc8446", size = 55954594 },
+]
+
+[[package]]
+name = "packaging"
+version = "24.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d0/63/68dbb6eb2de9cb10ee4c9c14a0148804425e13c4fb20d61cce69f53106da/packaging-24.2.tar.gz", hash = "sha256:c228a6dc5e932d346bc5739379109d49e8853dd8223571c7c5b55260edc0b97f", size = 163950 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/88/ef/eb23f262cca3c0c4eb7ab1933c3b1f03d021f2c48f54763065b6f0e321be/packaging-24.2-py3-none-any.whl", hash = "sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759", size = 65451 },
+]
+
+[[package]]
+name = "plotly"
+version = "5.24.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+    { name = "tenacity" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/79/4f/428f6d959818d7425a94c190a6b26fbc58035cbef40bf249be0b62a9aedd/plotly-5.24.1.tar.gz", hash = "sha256:dbc8ac8339d248a4bcc36e08a5659bacfe1b079390b8953533f4eb22169b4bae", size = 9479398 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/ae/580600f441f6fc05218bd6c9d5794f4aef072a7d9093b291f1c50a9db8bc/plotly-5.24.1-py3-none-any.whl", hash = "sha256:f67073a1e637eb0dc3e46324d9d51e2fe76e9727c892dde64ddf1e1b51f29089", size = 19054220 },
+]
+
+[[package]]
+name = "polars"
+version = "1.17.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/32/3b/40b42c6b0e54b001fbaaa55d3d769283e0d54541be783783e08da6a9c54a/polars-1.17.1.tar.gz", hash = "sha256:5a3dac3cb7cbe174d1fa898cba9afbede0c08e8728feeeab515554d762127019", size = 4220337 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5b/24/a7d97fb8988a3ccf9e285311fe9b04e8cec95657fc2b9f9a8ebedbcdd06f/polars-1.17.1-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:d3a2172f7cf332010f0b034345111e9c86d59b5a5b0fc5aa0509121f40d9e43c", size = 32993574 },
+    { url = "https://files.pythonhosted.org/packages/84/4f/b892993474850e85ac05ffa6d0f312c207dcbb1e4a55dc6383f826d5a87d/polars-1.17.1-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:82e98c69197df0d8ddc341a6175008508ceaea88f723f32044027810bcdb43fa", size = 28773084 },
+    { url = "https://files.pythonhosted.org/packages/29/08/54fe197c9d5f951cf85944ff9cfe0a706dc9d2230e98814a125eda8a1d09/polars-1.17.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:59abdab015ed2ecfa0c63862b960816c35096e1f4df057dde3c44cd973af5029", size = 36360758 },
+    { url = "https://files.pythonhosted.org/packages/9b/0c/f5a100da6184f11838520a423a5830dabe194a0812c9fdbef419f2276a92/polars-1.17.1-cp39-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:6d2f922c403b8900b3ae3c23a27b2cae3a2db40ad790cc4fc368402b92629b11", size = 32685903 },
+    { url = "https://files.pythonhosted.org/packages/4b/59/cf2e88bebdffb7efb7e4f65f4ec9e293040c313d37e3628db87e4f64dca4/polars-1.17.1-cp39-abi3-win_amd64.whl", hash = "sha256:d38156c8259554cbcb17874d91e6dfa9c404335f08a3307496aadfdee46baa31", size = 35931768 },
+]
+
+[[package]]
+name = "tenacity"
+version = "9.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cd/94/91fccdb4b8110642462e653d5dcb27e7b674742ad68efd146367da7bdb10/tenacity-9.0.0.tar.gz", hash = "sha256:807f37ca97d62aa361264d497b0e31e92b8027044942bfa756160d908320d73b", size = 47421 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b6/cb/b86984bed139586d01532a587464b5805f12e397594f19f931c4c2fbfa61/tenacity-9.0.0-py3-none-any.whl", hash = "sha256:93de0c98785b27fcf659856aa9f54bfbd399e29969b0621bc7f762bd441b4539", size = 28169 },
+]
