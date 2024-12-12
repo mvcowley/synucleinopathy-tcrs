@@ -31,14 +31,16 @@ def heatmap(
     alpha: npt.NDArray[np.float64], beta: npt.NDArray[np.float64], names: list[str]
 ) -> go.Figure:
     merge = alpha + beta.T
+    # Above the diagonal is alpha chain. Below the diagonal is beta chain.
     fig = go.Figure(
         data=go.Heatmap(z=merge, x=names, y=names, colorbar={"title": "Jaccard Index"}),
     )
     fig.update_layout(
-        font=dict(size=8),
+        font=dict(size=6),
         autosize=False,
         width=500,
         height=500,
+        yaxis_autorange="reversed",
     )
     fig.update_yaxes(automargin=True)
     return fig
