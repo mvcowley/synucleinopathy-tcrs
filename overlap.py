@@ -1,10 +1,14 @@
-from dcr_pd_analysis import mixcr, dcr, merge, plot
+import numpy as np
+
+from dcr_pd_analysis import dcr, merge, mixcr, plot, stats
 
 if __name__ == "__main__":
-    run1 = mixcr.get_results("../")
-    run2 = dcr.load("../data/tcrseqgroup/Summary_NS148.csv")
-    merged = merge.frames(run1, run2)
-    for feature in ["total_transcripts", "unique_transcripts"]:
-        fig = plot.scatter(merged, feature)
-        fig.write_image(f"{feature}_scatter.png", scale=5)
-
+    alpha_reps = dcr.load_reps(
+        "../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
+    )
+    beta_reps = dcr.load_reps(
+        "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
+    )
+    alpha_jac_mat = stats.get_jaccard_matrix(alpha_reps)
+    beta_jac_mat = stats.get_jaccard_matrix(beta_reps)
+    plot.heatmap(alpha_jac_mat, beta_jac_mat)

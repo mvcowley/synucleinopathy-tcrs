@@ -1,6 +1,9 @@
+import numpy as np
+import numpy.typing as npt
 import plotly.colors as co
 import plotly.graph_objects as go
 import polars as pl
+
 
 def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
     fig = go.Figure()
@@ -21,3 +24,9 @@ def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
     fig.update_layout(xaxis_title=f"{feature}", yaxis_title=f"{feature}_run2")
     return fig
 
+def heatmap(alpha: npt.NDArray[np.float64], beta: npt.NDArray[np.float64]) -> go.Figure:
+    merge = alpha + beta.T
+    print(merge)
+    fig = go.Figure(data=go.Heatmap(
+
+    ))
