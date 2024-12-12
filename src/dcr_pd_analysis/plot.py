@@ -31,7 +31,6 @@ def heatmap(
     alpha: npt.NDArray[np.float64], beta: npt.NDArray[np.float64], names: list[str]
 ) -> go.Figure:
     merge = alpha + beta.T
-    print(merge)
     fig = go.Figure(
         data=go.Heatmap(z=merge, x=names, y=names, colorbar={"title": "Jaccard Index"}),
     )

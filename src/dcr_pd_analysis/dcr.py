@@ -30,7 +30,11 @@ def load_summary(path: str) -> pl.DataFrame:
 def load_reps(path: str, glob: str, expected: int) -> list[tuple[str, pl.DataFrame]]:
     p = pathlib.Path(path).glob(glob)
     files = [p for p in p if p.is_file()]
+    files = [f.resolve() for f in files]
+    reverse = [f.__str__()[::-1] for f in files]
+    reverse.sort()
+    files = [f[::-1] for f in reverse]
     assert len(files) == expected
     return [
-        (f.name.split(".")[0], pl.read_csv(f.resolve(), separator="\t")) for f in files
+        (f.split(".")[0].split("/")[-1], pl.read_csv(f, separator="\t")) for f in files
     ]
