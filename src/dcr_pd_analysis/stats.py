@@ -23,10 +23,9 @@ def get_jaccard_index(sample1: pl.DataFrame, sample2: pl.DataFrame) -> float:
 
 
 def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> NDArray[np.float64]:
-    # jac_index = np.full((len(reps), len(reps)), np.nan, np.float64)
     jac_index = np.zeros((len(reps), len(reps)), np.float64)
     for i, rep1 in enumerate(reps):
-        # jac_index[i, i] = 0.0
+        jac_index[i, i] = np.nan
         for j, rep2 in enumerate(reps[i + 1 :]):
             print(f"Comparing {i}:{rep1[0]} and {i + j + 1}:{rep2[0]}")
             jac_index[i, i + j + 1] = get_jaccard_index(rep1[1], rep2[1])

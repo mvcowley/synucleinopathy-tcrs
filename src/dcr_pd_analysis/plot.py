@@ -41,6 +41,8 @@ def heatmap(
         width=500,
         height=500,
         yaxis_autorange="reversed",
+        plot_bgcolor="black"
     )
-    fig.update_yaxes(automargin=True)
+    fig.update_yaxes(automargin=True, showgrid=False)
+    fig.update_xaxes(showgrid=False)
     return fig
