@@ -1,3 +1,5 @@
+from typing import Any
+
 import numpy as np
 import numpy.typing as npt
 import plotly.colors as co
@@ -27,11 +29,7 @@ def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
     return fig
 
 
-def heatmap(
-    alpha: npt.NDArray[np.float64], beta: npt.NDArray[np.float64], names: list[str]
-) -> go.Figure:
-    merge = alpha + beta.T
-    # Above the diagonal is alpha chain. Below the diagonal is beta chain.
+def heatmap(merge: npt.NDArray[np.floating[Any]], names: list[str]) -> go.Figure:
     fig = go.Figure(
         data=go.Heatmap(z=merge, x=names, y=names, colorbar={"title": "Jaccard Index"}),
     )
@@ -41,7 +39,7 @@ def heatmap(
         width=500,
         height=500,
         yaxis_autorange="reversed",
-        plot_bgcolor="black"
+        plot_bgcolor="black",
     )
     fig.update_yaxes(automargin=True, showgrid=False)
     fig.update_xaxes(showgrid=False)
