@@ -1,12 +1,12 @@
 import numpy as np
 import numpy.typing as npt
+import plotly.graph_objs as go
 import polars as pl
 from scipy import stats
 
-KEY = "sequence"
-
 
 def get_jaccard_index(sample1: pl.DataFrame, sample2: pl.DataFrame) -> float:
+    KEY = "sequence"
     series1 = sample1.get_column(KEY).drop_nulls().unique()
     series2 = sample2.get_column(KEY).drop_nulls().unique()
 
@@ -34,14 +34,15 @@ def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.f
 
 
 def add_p_value_annotation(
-    fig,
-    array_columns,
+    fig: go.Figure,
+    array_columns: list[tuple[int, int, str]],
     subplot=None,
     _format=dict(interline=0.07, text_height=1.07, color="black"),
 ):
     """Adds notations giving the p-value between two box plot data (t-test two-sided comparison)
 
     From: https://stackoverflow.com/questions/67505252/plotly-box-p-value-significant-annotation
+    Modified: Fixing a few bugs, text spacing, and changing statistical test to Brunner-Munzel
 
     Parameters:
     ----------
@@ -84,22 +85,49 @@ def add_p_value_annotation(
         print((indices))
     else:
         subplot_str = ""
+        indices = None
 
     # Print the p-values
     for index, column_pair in enumerate(array_columns):
         if subplot:
+            if not indices:
+                raise RuntimeError(
+                    "Value of indicies not set by subplot logic. Debug this function."
+                )
             data_pair = [indices[column_pair[0]], indices[column_pair[1]]]
         else:
             data_pair = column_pair
-        # Mare sure it is selecting the data and subplot you want
-        # print('0:', fig_dict['data'][data_pair[0]]['name'], fig_dict['data'][data_pair[0]]['y'])
-        # print('1:', fig_dict['data'][data_pair[1]]['name'], fig_dict['data'][data_pair[1]]['y'])
+        # Make sure it is selecting the data and subplot you want
+        print(fig_dict["data"])
+
+        print(
+            "0:",
+            fig_dict["data"][data_pair[0]]["name"],
+            fig_dict["data"][data_pair[0]]["y"],
+        )
+        print(
+            "1:",
+            fig_dict["data"][data_pair[1]]["name"],
+            fig_dict["data"][data_pair[1]]["y"],
+        )
+
+        data0 = fig_dict["data"][data_pair[0]]
+        data1 = fig_dict["data"][data_pair[1]]
+
+        mask0 = [i for i in range(len(data0["x"])) if data0["x"][i] == data_pair[2]]
+        mask1 = [i for i in range(len(data1["x"])) if data1["x"][i] == data_pair[2]]
+
+        chain_data0 = [data0["y"][i] for i in mask0]
+        chain_data1 = [data1["y"][i] for i in mask1]
+
+        print(chain_data0)
+        print(chain_data1)
 
         filtered_data0 = [
-            i for i in fig_dict["data"][data_pair[0]]["y"] if i is not None
+            i for i in data0["y"] if i is not None
         ]
         filtered_data1 = [
-            i for i in fig_dict["data"][data_pair[1]]["y"] if i is not None
+            i for i in data1["y"] if i is not None
         ]
 
         # Get the p-value

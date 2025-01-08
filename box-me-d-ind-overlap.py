@@ -32,4 +32,9 @@ if __name__ == "__main__":
         ["Alpha", "Beta"],
         ["Control", "Parkinsons"],
     )
+    stats.add_p_value_annotation(
+        fig,
+        [(0, 1, "Alpha"), (0, 1, "Beta")],
+        _format=dict(interline=0.06, text_height=0.05, color="black"),
+    )
     fig.write_image(f"box_ind_me_d_overlap.png", scale=5)
