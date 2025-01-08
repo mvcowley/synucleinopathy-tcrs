@@ -9,6 +9,7 @@ dependencies = [
     "plotly>=5.24.1",
     "kaleido==0.1",
     "numpy>=2.2.0",
+    "scipy>=1.15.0",
 ]
 
 [build-system]
