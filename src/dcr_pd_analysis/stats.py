@@ -1,6 +1,6 @@
 import numpy as np
+import numpy.typing as npt
 import polars as pl
-from numpy._typing import NDArray
 
 KEY = "sequence"
 
@@ -22,7 +22,7 @@ def get_jaccard_index(sample1: pl.DataFrame, sample2: pl.DataFrame) -> float:
     return float(overlap)
 
 
-def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> NDArray[np.float64]:
+def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.float64]:
     jac_index = np.zeros((len(reps), len(reps)), np.float64)
     for i, rep1 in enumerate(reps):
         jac_index[i, i] = np.nan
