@@ -32,4 +32,4 @@ if __name__ == "__main__":
         ["Alpha", "Beta"],
         ["Control", "Parkinsons"],
     )
-    fig.write_image(f"box_ind_me_d_overlap.png", scale=5)
+    fig.write_image(f"out/box_ind_me_d_overlap.png", scale=5)

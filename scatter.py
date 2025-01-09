@@ -6,5 +6,5 @@ if __name__ == "__main__":
     merged = merge.frames(run1, run2)
     for feature in ["total_transcripts", "unique_transcripts"]:
         fig = plot.scatter(merged, feature)
-        fig.write_image(f"{feature}_scatter.png", scale=5)
+        fig.write_image(f"out/{feature}_scatter.png", scale=5)
 

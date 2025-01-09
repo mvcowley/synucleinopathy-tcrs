@@ -16,4 +16,4 @@ if __name__ == "__main__":
         names = [i[0].split("_")[2] for i in filtered_alphas]
         merge = alpha_jac_mat + beta_jac_mat.T
         fig = plot.heatmap(merge, names)
-        fig.write_image(f"ind_{i}_overlap.png", scale=5)
+        fig.write_image(f"out/ind_{i}_overlap.png", scale=5)
