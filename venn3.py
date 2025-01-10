@@ -15,5 +15,5 @@ if __name__ == "__main__":
         filtered_betas = dcr.filter_samples(beta_reps, i)
         alpha_seqs = dcr.get_seqs(filtered_alphas)
         beta_seqs = dcr.get_seqs(filtered_betas)
-        cg_alphas = dcr.course_grain(alpha_seqs, ["HB", "ST"])
+        cg_alphas = dcr.course_grain(alpha_seqs, ["HB", "ST"], "BR")
         # id_venn[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}

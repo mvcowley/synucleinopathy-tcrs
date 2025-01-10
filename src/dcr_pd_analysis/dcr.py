@@ -111,7 +111,7 @@ def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
 
 
 def course_grain(
-    reps: dict[str, list[str]], tissues: list[str]
+    reps: dict[str, list[str]], tissues: list[str], merge_name: str
 ) -> dict[str, list[str]]:
     NAME_I = 0
     DF_I = 1
@@ -136,4 +136,15 @@ def course_grain(
         if rep[NAME_I].split("_")[SAMPLE_CODE_I][:INDIVIDUAL_I] not in tissues
     }
 
-    print(reps.keys())
+    merge = []
+    for seqs in selected_tissues.values():
+        merge += seqs
+    merge = list(set(merge))
+
+    id = list(reps.keys())[0].split("_")[2][-1]
+    prefix = "_".join(list(reps.keys())[0].split("_")[:2])
+    suffix = "_".join(list(reps.keys())[0].split("_")[-2:])
+    new_key = f"{prefix}_{merge_name}{id}_{suffix}"
+    reps[new_key] = merge
+
+    return reps
