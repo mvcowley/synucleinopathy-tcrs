@@ -21,7 +21,8 @@ if __name__ == "__main__":
 
     # conditions = {"Control": [1, 2, 3, 4], "Parkinson's": [5, 6, 7, 8]}
     conditions = {"C": [1, 2, 3, 4], "P": [5, 6, 7, 8]}
-    tissues = ["Hindbrain", "Dura", "Muscularis", "Striatum"]
+    # tissues = ["Hindbrain", "Dura", "Muscularis", "Striatum"]
+    tissues = ["H", "D", "M", "S"]
     # chains = ["Alpha", "Beta"]
     chains = ["A", "B"]
     sample_overlap = {}
