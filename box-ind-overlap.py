@@ -16,11 +16,14 @@ if __name__ == "__main__":
         filtered_betas = dcr.filter_samples(beta_reps, i)
         alpha_jac_mat = stats.get_jaccard_matrix(filtered_alphas)
         beta_jac_mat = stats.get_jaccard_matrix(filtered_betas)
-        id_overlap[i] = {"Alpha": alpha_jac_mat, "Beta": beta_jac_mat}
+        # id_overlap[i] = {"Alpha": alpha_jac_mat, "Beta": beta_jac_mat}
+        id_overlap[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}
 
-    conditions = {"Control": [1, 2, 3, 4], "Parkinsons": [5, 6, 7, 8]}
+    # conditions = {"Control": [1, 2, 3, 4], "Parkinsons": [5, 6, 7, 8]}
+    conditions = {"C": [1, 2, 3, 4], "P": [5, 6, 7, 8]}
     tissues = ["Hindbrain", "Dura", "Muscularis", "Striatum"]
-    chains = ["Alpha", "Beta"]
+    # chains = ["Alpha", "Beta"]
+    chains = ["A", "B"]
     sample_overlap = {}
     for condition, condition_indicies in conditions.items():
         for tissue_index1, tissue1 in enumerate(tissues):
