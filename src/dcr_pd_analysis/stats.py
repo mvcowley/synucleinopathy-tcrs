@@ -31,3 +31,14 @@ def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.f
             print(f"Comparing {i}:{rep1[0]} and {i + j + 1}:{rep2[0]}")
             jac_index[i, i + j + 1] = get_jaccard_index(rep1[1], rep2[1])
     return jac_index
+
+
+def get_venn(reps: dict[str, list[str]]) -> dict[str, int]:
+    list_reps = [(name, seqs) for name, seqs in reps.items()]
+    venn = {}
+    for index1, rep1 in enumerate(list_reps):
+        assert rep1 == list(set(rep1))
+        venn[f"{rep1}_U_{rep1}"] = len(rep1)
+        for index2, rep2 in enumerate(list_reps[index1 + 1:]):
+            
+
