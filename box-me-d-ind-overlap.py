@@ -26,7 +26,7 @@ if __name__ == "__main__":
     c_beta = beta_points[0 : C[-1] + 1]
     p_alpha = alpha_points[P[0] : -1]
     p_beta = beta_points[P[0] : -1]
-    fig = plot.box(
+    fig = plot.cond_box(
         c_alpha + c_beta,
         p_alpha + p_beta,
         ["Alpha", "Beta"],
