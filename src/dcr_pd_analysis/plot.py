@@ -107,6 +107,18 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
                 showlegend=False,
             )
         )
+
+    legend_names = [
+        "Control Alpha",
+        "Parkinsons Alpha",
+        "Control Beta",
+        "Parkinsons Beta",
+    ]
+    for index, name in enumerate(legend_names):
+        fig.add_trace(
+            go.Box(x=[np.nan], y=[np.nan], name=name, line_color=colors[index])
+        )
+
     fig.update_layout(
         yaxis=dict(title=dict(text="Jaccard Index")),
         font=dict(
