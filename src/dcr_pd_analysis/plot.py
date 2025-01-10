@@ -89,7 +89,10 @@ def cond_box(
 def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
     colors = co.qualitative.Plotly
-    for name, values in data.items():
+    alpha_colors = [i for i in range(2)] * 7
+    beta_colors = [i + 2 for i in range(2)] * 7
+    color_index = alpha_colors + beta_colors
+    for (name, values), color in zip(data.items(), color_index):
         fig.add_trace(
             go.Box(
                 y=values,
@@ -97,8 +100,8 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
                 boxpoints="all",
                 jitter=0.5,
                 whiskerwidth=0.2,
-                # marker_color=colors[cond_index],
-                # line_color=colors[cond_index],
+                marker_color=colors[color],
+                line_color=colors[color],
                 marker_size=2,
                 line_width=1,
                 showlegend=False,
