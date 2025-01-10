@@ -1,6 +1,4 @@
-import polars as pl
-
-from dcr_pd_analysis import dcr, mplib, plot, stats
+from dcr_pd_analysis import dcr, plot, stats
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
@@ -37,5 +35,10 @@ if __name__ == "__main__":
                         for condition_index in condition_indicies
                     ]
                     sample_overlap[f"{condition} {tissue1}-{tissue2} {chain}"] = data
-    fig = plot.tissue_box(sample_overlap)
+
+    sorted_data = {
+        k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
+    }
+
+    fig = plot.tissue_box(sorted_data)
     fig.write_image("out/tissue_box.png", scale=5)

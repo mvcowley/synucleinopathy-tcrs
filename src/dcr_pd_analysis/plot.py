@@ -101,7 +101,14 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
                 # line_color=colors[cond_index],
                 marker_size=2,
                 line_width=1,
+                showlegend=False,
             )
         )
-    fig.update_layout(yaxis=dict(title=dict(text="Jaccard Index")))
+    fig.update_layout(
+        yaxis=dict(title=dict(text="Jaccard Index")),
+        font=dict(
+            family="Cascadia Code",
+            size=8,
+        ),
+    )
     return fig
