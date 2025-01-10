@@ -1,3 +1,5 @@
+import polars as pl
+
 from dcr_pd_analysis import dcr, mplib, plot, stats
 
 if __name__ == "__main__":
@@ -35,5 +37,5 @@ if __name__ == "__main__":
                         for condition_index in condition_indicies
                     ]
                     sample_overlap[f"{condition} {tissue1}-{tissue2} {chain}"] = data
-
-    print(sample_overlap)
+    fig = plot.tissue_box(sample_overlap)
+    fig.write_image("out/tissue_box.png", scale=5)

@@ -48,7 +48,7 @@ def heatmap(merge: npt.NDArray[np.floating[Any]], names: list[str]) -> go.Figure
     return fig
 
 
-def box(
+def cond_box(
     cond1: list[float],
     cond2: list[float],
     axis_names: list[str],
@@ -83,4 +83,25 @@ def box(
         yaxis=dict(title=dict(text="Jaccard Index ME-D")),
         boxmode="group",
     )
+    return fig
+
+
+def tissue_box(data: dict[str, list[float]]) -> go.Figure:
+    fig = go.Figure()
+    colors = co.qualitative.Plotly
+    for name, values in data.items():
+        fig.add_trace(
+            go.Box(
+                y=values,
+                name=name,
+                boxpoints="all",
+                jitter=0.5,
+                whiskerwidth=0.2,
+                # marker_color=colors[cond_index],
+                # line_color=colors[cond_index],
+                marker_size=2,
+                line_width=1,
+            )
+        )
+    fig.update_layout(yaxis=dict(title=dict(text="Jaccard Index")))
     return fig
