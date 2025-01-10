@@ -19,7 +19,7 @@ if __name__ == "__main__":
         # id_overlap[i] = {"Alpha": alpha_jac_mat, "Beta": beta_jac_mat}
         id_overlap[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}
 
-    # conditions = {"Control": [1, 2, 3, 4], "Parkinsons": [5, 6, 7, 8]}
+    # conditions = {"Control": [1, 2, 3, 4], "Parkinson's": [5, 6, 7, 8]}
     conditions = {"C": [1, 2, 3, 4], "P": [5, 6, 7, 8]}
     tissues = ["Hindbrain", "Dura", "Muscularis", "Striatum"]
     # chains = ["Alpha", "Beta"]
@@ -44,4 +44,10 @@ if __name__ == "__main__":
     }
 
     fig = plot.tissue_box(sorted_data)
+    annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
+    plot.add_p_value_annotation(
+        fig,
+        annotation_list,
+        _format=dict(interline=0.02, width=1, text_height=0.03, color="black"),
+    )
     fig.write_image("out/tissue_box.png", scale=5)
