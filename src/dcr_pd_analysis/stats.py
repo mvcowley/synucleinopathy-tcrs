@@ -1,12 +1,10 @@
 import numpy as np
 import numpy.typing as npt
 import polars as pl
-from scipy import stats
-
-KEY = "sequence"
 
 
 def get_jaccard_index(sample1: pl.DataFrame, sample2: pl.DataFrame) -> float:
+    KEY = "sequence"
     series1 = sample1.get_column(KEY).drop_nulls().unique()
     series2 = sample2.get_column(KEY).drop_nulls().unique()
 
@@ -36,9 +34,21 @@ def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.f
 def get_venn(reps: dict[str, list[str]]) -> dict[str, int]:
     list_reps = [(name, seqs) for name, seqs in reps.items()]
     venn = {}
-    for index1, rep1 in enumerate(list_reps):
-        assert rep1 == list(set(rep1))
-        venn[f"{rep1}_U_{rep1}"] = len(rep1)
-        for index2, rep2 in enumerate(list_reps[index1 + 1:]):
-            
+    for index1, (rep1_name, rep1_seq) in enumerate(list_reps):
+        set1 = set(rep1_seq)
+        assert (
+            rep1_seq.sort() == list(set1).sort()
+        )  # Double check that the lists really are sets
+        venn[rep1_name] = len(set1)
+        for rep2_name, rep2_seq in list_reps[index1 + 1 :]:
+            set2 = set(rep2_seq)
+            venn[f"{rep1_name}_&_{rep2_name}"] = len(set1 & set2)
 
+    # All reps intersect in different loop for readability
+    all_intersect_name = "_&_".join([name for name, _ in list_reps])
+    base_set = set(list_reps[0][1])
+    for rep in list_reps[1:]:
+        base_set = base_set & set(rep[1])
+    venn[all_intersect_name] = len(base_set)
+
+    return venn
