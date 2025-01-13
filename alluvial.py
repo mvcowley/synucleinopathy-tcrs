@@ -14,7 +14,8 @@ if __name__ == "__main__":
     for i in range(1, N + 1):
         for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
             filtered = dcr.filter_samples(data, i)
-            seqs = dcr.get_seqs(filtered)
+            seqs = dcr.get_seq_counts(filtered)
+            print(seqs)
             # cg_seqs = dcr.course_grain(seqs, ["HB", "ST"], "BR")
             # venn = stats.get_venn(cg_seqs)
             # labels = list(cg_seqs.keys())

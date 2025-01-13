@@ -61,6 +61,16 @@ def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
     return {rep[NAME_I]: rep[DF_I]["sequence"].to_list() for rep in reps}
 
 
+def get_seq_counts(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, dict[str, int]]:
+    seq_counts = {}
+    for name, rep in reps:
+        rep = rep.select(["sequence", "duplicate_count"])
+        rows_by_key = rep.rows_by_key(key=["sequence"])
+        data = {k: v[0][0] for k, v in rows_by_key.items()}
+        seq_counts[name] = data
+    return seq_counts
+
+
 def course_grain(
     reps: dict[str, list[str]], tissues: list[str], merge_name: str
 ) -> dict[str, list[str]]:
