@@ -129,16 +129,24 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     return fig
 
 
-def venn(data: dict[str, int], labels: dict[str, str]) -> go.Figure:
+def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
     fig = go.Figure()
     colors = co.qualitative.Plotly
 
     # Create scatter trace of text labels
     fig.add_trace(
         go.Scatter(
-            x=[1, 1.75, 2.5],
-            y=[1, 1, 1],
-            text=["$A$", "$A+B$", "$B$"],
+            x=[1, 1.75, 2.5, 2.25, 1.75, 1.25, 1.75],
+            y=[1, 1.25, 1, 0.3, -0.25, 0.3, 0.65],
+            text=[
+                data[left],
+                data[f"{left}_&_{right}"],
+                data[right],
+                data[f"{right}_&_{bot}"],
+                data[bot],
+                data[f"{left}_&_{bot}"],
+                data[f"{left}_&_{right}_&_{bot}"],
+            ],
             mode="text",
             textfont=dict(
                 color="black",
@@ -198,7 +206,7 @@ def venn(data: dict[str, int], labels: dict[str, str]) -> go.Figure:
 
     fig.update_shapes(opacity=0.3, xref="x", yref="y")
 
-    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), plot_bgcolor="white")
     fig.update_xaxes(constrain="domain")
     fig.update_yaxes(scaleanchor="x")
 
