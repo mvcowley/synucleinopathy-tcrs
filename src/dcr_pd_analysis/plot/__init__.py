@@ -12,7 +12,8 @@ import polars as pl
 def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
     fig = go.Figure()
     colors = co.qualitative.Plotly
-    mice = ((1, 2, 3, 4), (5, 6, 7, 8))
+    # Corrected and confirmed by Seppe on 13/01/2025
+    mice = ((5, 6, 7, 8), (1, 2, 3, 4))
     shape = ["circle", "square", "diamond", "cross"]
     for i, group in enumerate(["Control", "Parkinson"]):
         subset = data.filter(pl.col("tissue_id").is_in(mice[i]))
