@@ -139,9 +139,9 @@ def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
             x=[0.75, 2.75, 1.75, 1, 1.75, 2.5, 2.25, 1.75, 1.25, 1.75],
             y=[1.25, 1.25, -0.5, 1, 1.25, 1, 0.3, -0.25, 0.3, 0.65],
             text=[
-                left.split("_")[2],
-                right.split("_")[2],
-                bot.split("_")[2],
+                f"<b>{left.split("_")[2]}</b>",
+                f"<b>{right.split("_")[2]}</b>",
+                f"<b>{bot.split("_")[2]}</b>",
                 data[left],
                 data[f"{left}_&_{right}"],
                 data[right],
@@ -181,8 +181,8 @@ def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
 
     fig.add_shape(
         type="circle",
-        line_color=colors[0],
-        fillcolor=colors[0],
+        line_color=colors[3],
+        fillcolor=colors[3],
         x0=0.25,
         y0=0,
         x1=2.25,
@@ -190,8 +190,8 @@ def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
     )
     fig.add_shape(
         type="circle",
-        line_color=colors[1],
-        fillcolor=colors[1],
+        line_color=colors[4],
+        fillcolor=colors[4],
         x0=1.25,
         y0=0,
         x1=3.25,
