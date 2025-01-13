@@ -20,12 +20,13 @@ if __name__ == "__main__":
         alpha_points.append(alpha_jac_mat[DURA, MUSCULARIS])
         beta_points.append(beta_jac_mat[DURA, MUSCULARIS])
 
-    C = [0, 1, 2, 3]
-    P = [4, 5, 6, 7]
-    c_alpha = alpha_points[0 : C[-1] + 1]
-    c_beta = beta_points[0 : C[-1] + 1]
-    p_alpha = alpha_points[P[0] : -1]
-    p_beta = beta_points[P[0] : -1]
+    # Corrected and confirmed by Seppe on 13/01/2025
+    C = [4, 5, 6, 7]
+    P = [0, 1, 2, 3]
+    c_alpha = alpha_points[C[0] : C[-1] + 1]
+    c_beta = beta_points[C[0] : C[-1] + 1]
+    p_alpha = alpha_points[P[0] : P[-1] + 1]
+    p_beta = beta_points[P[0] : P[-1] + 1]
     fig = plot.cond_box(
         c_alpha + c_beta,
         p_alpha + p_beta,
