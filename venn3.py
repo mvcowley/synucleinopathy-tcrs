@@ -11,15 +11,11 @@ if __name__ == "__main__":
     N = 8
     id_venn = {}
     for i in range(1, N + 1):
-        filtered_alphas = dcr.filter_samples(alpha_reps, i)
-        filtered_betas = dcr.filter_samples(beta_reps, i)
-        alpha_seqs = dcr.get_seqs(filtered_alphas)
-        beta_seqs = dcr.get_seqs(filtered_betas)
-        cg_alphas = dcr.course_grain(alpha_seqs, ["HB", "ST"], "BR")
-        cg_betas = dcr.course_grain(beta_seqs, ["HB", "ST"], "BR")
-        venn_alpha = stats.get_venn(cg_alphas)
-        venn_beta = stats.get_venn(cg_betas)
-        labels = list(cg_alphas.keys())
-        fig = plot.venn3(venn_alpha, *labels)
-        fig.write_image(f"out/{i}_venn.png", scale=5)
-        # id_venn[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}
+        for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
+            filtered = dcr.filter_samples(data, i)
+            seqs = dcr.get_seqs(filtered)
+            cg_seqs = dcr.course_grain(seqs, ["HB", "ST"], "BR")
+            venn = stats.get_venn(cg_seqs)
+            labels = list(cg_seqs.keys())
+            fig = plot.venn3(venn, *labels)
+            fig.write_image(f"out/{i}_{chain}_venn.png", scale=5)
