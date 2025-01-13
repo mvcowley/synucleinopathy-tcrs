@@ -14,10 +14,9 @@ if __name__ == "__main__":
     for i in range(1, N + 1):
         for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
             filtered = dcr.filter_samples(data, i)
-            seqs = dcr.get_seq_counts(filtered)
-            print(seqs)
-            # cg_seqs = dcr.course_grain(seqs, ["HB", "ST"], "BR")
-            # venn = stats.get_venn(cg_seqs)
-            # labels = list(cg_seqs.keys())
-            # fig = plot.venn3(venn, *labels)
-            # fig.write_image(f"out/{i}_{chain}_venn.png", scale=5)
+            freqs = dcr.add_freq_col(filtered)
+            seqs = dcr.get_seq_counts(freqs)
+            # TODO: Decide on what portion of repertoire to visualise in plot
+            # Should it be top clonotypes from a tissue
+            # Or a set of clonotypes of interest in a mouse
+            # Or the ones that have been observed to overlap <- this seems right

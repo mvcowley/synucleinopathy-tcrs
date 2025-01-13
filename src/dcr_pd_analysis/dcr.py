@@ -55,6 +55,20 @@ def filter_samples(
     return filtered_reps
 
 
+def add_freq_col(
+    reps: list[tuple[str, pl.DataFrame]]
+) -> list[tuple[str, pl.DataFrame]]:
+    data = []
+    for name, rep in reps:
+        rep = rep.with_columns(
+            (pl.col("duplicate_count") / pl.col("duplicate_count").sum()).alias(
+                "frequency"
+            )
+        )
+        data.append((name, rep))
+    return data
+
+
 def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
     NAME_I = 0
     DF_I = 1
