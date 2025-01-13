@@ -19,4 +19,6 @@ if __name__ == "__main__":
         cg_betas = dcr.course_grain(beta_seqs, ["HB", "ST"], "BR")
         venn_alpha = stats.get_venn(cg_alphas)
         venn_beta = stats.get_venn(cg_betas)
+        fig = plot.venn(venn_alpha, {})
+        fig.write_image(f"out/{i}_venn.png", scale=5)
         # id_venn[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}

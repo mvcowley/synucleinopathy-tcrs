@@ -131,21 +131,14 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
 
 def venn(data: dict[str, int], labels: dict[str, str]) -> go.Figure:
     fig = go.Figure()
+    colors = co.qualitative.Plotly
 
     # Create scatter trace of text labels
     fig.add_trace(
         go.Scatter(
-            x=[1, 1.75, 2.5, .75/2, ],
+            x=[1, 1.75, 2.5],
             y=[1, 1, 1],
-            text=[
-                labels["left"],
-                labels["left&right"],
-                labels["right"],
-                labels["right&bot"],
-                labels["bot"],
-                labels["bot&left"],
-                labels["left&right&bot"],
-            ],
+            text=["$A$", "$A+B$", "$B$"],
             mode="text",
             textfont=dict(
                 color="black",
@@ -169,16 +162,44 @@ def venn(data: dict[str, int], labels: dict[str, str]) -> go.Figure:
     )
 
     # Add circles
+
+    # From Plotly add_shape docs: If "circle", a circle is
+    # drawn from ((`x0`+`x1`)/2, (`y0`+`y1`)/2)) with radius
+    # (|(`x0`+`x1`)/2 - `x0`|, |(`y0`+`y1`)/2 -`y0`)|) with
+    # respect to the axes' sizing mode.
+
     fig.add_shape(
-        type="circle", line_color="blue", fillcolor="blue", x0=0, y0=0, x1=2, y1=2
+        type="circle",
+        line_color=colors[0],
+        fillcolor=colors[0],
+        x0=0.25,
+        y0=0,
+        x1=2.25,
+        y1=2,
     )
     fig.add_shape(
-        type="circle", line_color="gray", fillcolor="gray", x0=1.5, y0=0, x1=3.5, y1=2
+        type="circle",
+        line_color=colors[1],
+        fillcolor=colors[1],
+        x0=1.25,
+        y0=0,
+        x1=3.25,
+        y1=2,
     )
+    fig.add_shape(
+        type="circle",
+        line_color=colors[2],
+        fillcolor=colors[2],
+        x0=0.75,
+        y0=1,
+        x1=2.75,
+        y1=-1,
+    )
+
     fig.update_shapes(opacity=0.3, xref="x", yref="y")
 
-    fig.update_layout(
-        margin=dict(l=20, r=20, b=100), height=600, width=800, plot_bgcolor="white"
-    )
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig.update_xaxes(constrain="domain")
+    fig.update_yaxes(scaleanchor="x")
 
     return fig
