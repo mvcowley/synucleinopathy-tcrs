@@ -20,8 +20,9 @@ if __name__ == "__main__":
         # id_overlap[i] = {"Alpha": alpha_jac_mat, "Beta": beta_jac_mat}
         id_overlap[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}
 
-    # conditions = {"Control": [1, 2, 3, 4], "Parkinson's": [5, 6, 7, 8]}
-    conditions = {"C": [1, 2, 3, 4], "P": [5, 6, 7, 8]}
+    # Corrected and confirmed by Seppe on 13/01/2025
+    # conditions = {"Control": [5, 6, 7, 8], "Parkinson's": [1, 2, 3, 4]}
+    conditions = {"C": [5, 6, 7, 8], "P": [1, 2, 3, 4]}
     # tissues = ["Hindbrain", "Dura", "Muscularis", "Striatum"]
     tissues = ["H", "D", "M", "S"]
     # chains = ["Alpha", "Beta"]
