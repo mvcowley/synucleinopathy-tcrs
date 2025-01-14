@@ -1,5 +1,6 @@
 """Plotting functions"""
 
+from collections.abc import ValuesView
 from typing import Any
 
 import numpy as np
@@ -7,6 +8,7 @@ import numpy.typing as npt
 import plotly.colors as co
 import plotly.graph_objects as go
 import polars as pl
+from plotly.subplots import make_subplots
 
 
 def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
@@ -215,3 +217,19 @@ def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
     fig.update_yaxes(scaleanchor="x")
 
     return fig
+
+
+def get_names_freqs(data: dict[str, pl.DataFrame]) -> list[list[tuple[str, float]]]:
+    regions = []
+    for seqs in data.values():
+        clones = []
+        for row in seqs.iter_rows():
+            name = " ".join([str(i) for i in row[:-1]])
+            freq = row[-1]
+            clones.append((name, freq))
+        regions.append(clones)
+    return regions
+
+def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
+    x = list(data.keys())
+    names_freqs = get_names_freqs(data)

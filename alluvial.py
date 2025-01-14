@@ -18,4 +18,7 @@ if __name__ == "__main__":
             seqs = dcr.get_seqs(filtered)
             venn = stats.get_venn_seqs(seqs)
             filtered = dcr.filter_seq(venn, filtered)
-            print(filtered)
+            for overlap in filtered.keys():
+                fig = plot.alluvial(filtered[overlap])
+                # fig.write_image(f"{i}_{chain}_{overlap}_alluvial.png", scale=5)
+
