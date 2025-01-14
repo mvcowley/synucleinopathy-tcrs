@@ -123,3 +123,23 @@ def course_grain(
     reps[new_key] = merge
 
     return reps
+
+
+def filter_seq(
+    overlaps: dict[str, set[str]], data: list[tuple[str, pl.DataFrame]]
+) -> dict[str, dict[str, pl.DataFrame]]:
+    filtered = {}
+    data_dict = {k: v for k, v in data}
+    for name, seqs in overlaps.items():
+        reps = name.split("_&_")
+        n_regions = len(reps)
+        if n_regions != 2:
+            continue
+        rep_seq = {}
+        for rep in reps:
+            df = data_dict[rep]
+            df = df.filter(pl.col("sequence").is_in(pl.Series(list(seqs))))
+            df = df.select(["junction_aa", "v_call", "j_call", "frequency"])
+            rep_seq[rep] = df
+        filtered[name] = rep_seq
+    return filtered

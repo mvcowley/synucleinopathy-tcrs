@@ -55,7 +55,7 @@ def get_venn_counts(reps: dict[str, list[str]]) -> dict[str, int]:
     return venn
 
 
-def get_venn_seqs(reps: dict[str, list[str]]) -> dict[str, int]:
+def get_venn_seqs(reps: dict[str, list[str]]) -> dict[str, set[str]]:
     list_reps = [(name, seqs) for name, seqs in reps.items()]
     venn = {}
     for index1, (rep1_name, rep1_seq) in enumerate(list_reps):
