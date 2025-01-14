@@ -15,7 +15,7 @@ if __name__ == "__main__":
             filtered = dcr.filter_samples(data, i)
             seqs = dcr.get_seqs(filtered)
             cg_seqs = dcr.course_grain(seqs, ["HB", "ST"], "BR")
-            venn = stats.get_venn(cg_seqs)
+            venn = stats.get_venn_counts(cg_seqs)
             labels = list(cg_seqs.keys())
             fig = plot.venn3(venn, *labels)
             fig.write_image(f"out/{i}_{chain}_venn.png", scale=5)
