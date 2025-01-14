@@ -75,7 +75,7 @@ def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
     return {rep[NAME_I]: rep[DF_I]["sequence"].to_list() for rep in reps}
 
 
-def get_seq_counts(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, dict[str, int]]:
+def get_seq_freqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, dict[str, int]]:
     seq_counts = {}
     for name, rep in reps:
         rep = rep.select(["sequence", "frequency"])

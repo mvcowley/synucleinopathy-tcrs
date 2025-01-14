@@ -15,7 +15,7 @@ if __name__ == "__main__":
         for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
             filtered = dcr.filter_samples(data, i)
             filtered = dcr.add_freq_col(filtered)
-            freqs = dcr.get_seq_counts(filtered)
+            freqs = dcr.get_seq_freqs(filtered)
             print(freqs)
             seqs = dcr.get_seqs(filtered)
             cg_seqs = dcr.course_grain(seqs, ["HB", "ST"], "BR")
