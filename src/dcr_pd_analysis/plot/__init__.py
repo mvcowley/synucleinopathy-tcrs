@@ -230,6 +230,25 @@ def get_names_freqs(data: dict[str, pl.DataFrame]) -> list[list[tuple[str, float
         regions.append(clones)
     return regions
 
+
+def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
+    n_regions = len(x)
+    bars = []
+    for row in df.iter_rows():
+        bar = go.Bar(
+            name=" ".join([str(i) for i in row[:-n_regions]]),
+            x=x,
+            y=[float(i) for i in row[-n_regions:]],
+            offsetgroup=0,
+        )
+        bars.append(bar)
+    return bars
+
+
 def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
-    names_freqs = get_names_freqs(data)
+    assert len(x) == 2
+    df = data[x[0]].join(other=data[x[1]], on=["junction_aa", "v_call", "j_call"])
+    bars = get_bars(df, x)
+    fig = go.Figure(data=bars)
+    return fig

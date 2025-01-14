@@ -1,4 +1,3 @@
-
 from dcr_pd_analysis import dcr, plot, stats
 
 if __name__ == "__main__":
@@ -20,5 +19,4 @@ if __name__ == "__main__":
             filtered = dcr.filter_seq(venn, filtered)
             for overlap in filtered.keys():
                 fig = plot.alluvial(filtered[overlap])
-                # fig.write_image(f"{i}_{chain}_{overlap}_alluvial.png", scale=5)
-
+                fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
