@@ -243,7 +243,7 @@ def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     print(x, df)
     bars = get_bars(df, x)
     fig = go.Figure(data=bars)
-    fig.update_layout(barmode="stack")
+    fig.update_layout(barmode="stack", showlegend=True)
     return fig
 
 
