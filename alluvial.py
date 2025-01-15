@@ -18,5 +18,5 @@ if __name__ == "__main__":
             venn = stats.get_venn_seqs(seqs)
             filtered = dcr.filter_seq(venn, filtered)
             for overlap in filtered.keys():
-                fig = plot.stacked_bar(filtered[overlap])
+                fig = plot.alluvial(filtered[overlap])
                 fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)

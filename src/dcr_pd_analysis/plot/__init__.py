@@ -219,18 +219,6 @@ def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
     return fig
 
 
-def get_names_freqs(data: dict[str, pl.DataFrame]) -> list[list[tuple[str, float]]]:
-    regions = []
-    for seqs in data.values():
-        clones = []
-        for row in seqs.iter_rows():
-            name = " ".join([str(i) for i in row[:-1]])
-            freq = row[-1]
-            clones.append((name, freq))
-        regions.append(clones)
-    return regions
-
-
 def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
     n_regions = len(x)
     bars = []
@@ -251,4 +239,34 @@ def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     df = data[x[0]].join(other=data[x[1]], on=["junction_aa", "v_call", "j_call"])
     bars = get_bars(df, x)
     fig = go.Figure(data=bars)
+    return fig
+
+
+def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
+    x = list(data.keys())
+    assert len(x) == 2
+    df = data[x[0]].join(other=data[x[1]], on=["junction_aa", "v_call", "j_call"])
+    df = df.with_columns(
+        (pl.col("junction_aa") + " " + pl.col("v_call") + " " + pl.col("j_call")).alias(
+            "clonotype"
+        )
+    )
+    df = df.drop(["junction_aa", "v_call", "j_call"])
+    print(df)
+
+    region1_dim = go.parcats.Dimension(values=df["frequency"], label=x[0])
+    region2_dim = go.parcats.Dimension(values=df["frequency_right"], label=x[1])
+
+    color = df["clonotype"]
+    colorscale = co.sequential.Viridis
+
+    fig = go.Figure(
+        data=[
+            go.Parcats(
+                dimensions=[region1_dim, region2_dim],
+                # line={"color": color, "colorscale": colorscale, "shape": "hspline"},
+            )
+        ]
+    )
+
     return fig
