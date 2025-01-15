@@ -75,6 +75,18 @@ def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
     return {rep[NAME_I]: rep[DF_I]["sequence"].to_list() for rep in reps}
 
 
+def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
+    out = {}
+    for name, df in reps:
+        df = df.with_columns(
+            (
+                pl.col("junction_aa") + " " + pl.col("v_call") + " " + pl.col("j_call")
+            ).alias("clonotype")
+        )
+        out[name] = df["clonotype"].to_list()
+    return out
+
+
 def get_seq_freqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, dict[str, int]]:
     seq_counts = {}
     for name, rep in reps:
