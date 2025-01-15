@@ -223,12 +223,20 @@ def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
     n_regions = len(x)
     bars = []
     for row in df.iter_rows():
-        print(" ".join([str(i) for i in row[:-n_regions]]))
-        print([float(i) for i in row[-n_regions:]])
+        if row[-3] != row[-1]:
+            print("Seq1:", row[-3])
+            print("Seq2:", row[-1])
+            for index, (ch1, ch2) in enumerate(zip(row[-3], row[-1])):
+                if ch1 != ch2:
+                    print("Diff at:", index, ch1, ch2)
+        name = " ".join([str(i) for i in row[:3]])
+        print(name)
+        y = [i for i in [row[-4], row[-2]]]
+        print(y)
         bar = go.Bar(
-            name=" ".join([str(i) for i in row[:-n_regions]]),
+            name=name,
             x=x,
-            y=[float(i) for i in row[-n_regions:]],
+            y=y,
         )
         bars.append(bar)
     return bars
