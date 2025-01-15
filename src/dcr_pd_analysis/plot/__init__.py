@@ -245,7 +245,7 @@ def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
     return bars
 
 
-def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
+def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
     assert len(x) == 2
     df = data[x[0]].join(other=data[x[1]], on=["junction_aa", "v_call", "j_call"])
