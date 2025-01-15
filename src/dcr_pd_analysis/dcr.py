@@ -146,7 +146,7 @@ def filter_seq(
     overlaps: dict[str, set[str]], data: dict[str, pl.DataFrame]
 ) -> dict[str, dict[str, pl.DataFrame]]:
     filtered = {}
-    for name, seqs in overlaps.items():
+    for name, clones in overlaps.items():
         reps = name.split("_&_")
         n_regions = len(reps)
         if n_regions != 2:
@@ -156,7 +156,7 @@ def filter_seq(
         rep_seq = {}
         for rep in reps:
             df = data[rep]
-            df = df.filter(pl.col("sequence").is_in(pl.Series(list(seqs))))
+            df = df.filter(pl.col("clonotype").is_in(pl.Series(list(clones))))
             df = df.select(["clonotype", "frequency"])
             rep_seq[rep] = df
         filtered[name] = rep_seq
