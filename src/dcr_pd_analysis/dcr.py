@@ -82,12 +82,9 @@ def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFra
             ).alias("clonotype")
         )
         df = df.drop_nulls("clonotype")
-        group = df.group_by("clonotype").agg(
-            pl.col("duplicate_count").sum().alias("duplicate_count")
+        df = df.group_by("clonotype").agg(
+            pl.col("duplicate_count").sum().alias("duplicate_count"),
         )
-        df = df.join(group, on="clonotype")
-        df = df.drop("duplicate_count")
-        df = df.rename({"duplicate_count_right": "duplicate_count"})
         out[name] = df
     return out
 

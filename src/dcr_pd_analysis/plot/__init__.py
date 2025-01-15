@@ -223,10 +223,8 @@ def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
     n_regions = len(x)
     bars = []
     for row in df.iter_rows():
-        print(" ".join([str(i) for i in row[:-n_regions]]))
-        print([float(i) for i in row[-n_regions:]])
         bar = go.Bar(
-            name=" ".join([str(i) for i in row[:-n_regions]]),
+            name=row[0],
             x=x,
             y=[float(i) for i in row[-n_regions:]],
         )
@@ -237,7 +235,7 @@ def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
 def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
     assert len(x) == 2
-    df = data[x[0]].join(other=data[x[1]], on=["junction_aa", "v_call", "j_call"])
+    df = data[x[0]].join(other=data[x[1]], on="clonotype")
     df = df.sort(["frequency", "frequency_right"], descending=True)
     df = df.head(10)
     print(x, df)
