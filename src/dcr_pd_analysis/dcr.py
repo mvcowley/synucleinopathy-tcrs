@@ -139,7 +139,7 @@ def filter_seq(
         for rep in reps:
             df = data_dict[rep]
             df = df.filter(pl.col("sequence").is_in(pl.Series(list(seqs))))
-            df = df.select(["junction_aa", "v_call", "j_call", "frequency", "sequence"])
+            df = df.select(["junction_aa", "v_call", "j_call", "frequency"])
             rep_seq[rep] = df
         filtered[name] = rep_seq
     return filtered
