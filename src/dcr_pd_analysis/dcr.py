@@ -55,17 +55,15 @@ def filter_samples(
     return filtered_reps
 
 
-def add_freq_col(
-    reps: list[tuple[str, pl.DataFrame]]
-) -> list[tuple[str, pl.DataFrame]]:
-    data = []
-    for name, rep in reps:
+def add_freq_col(reps: dict[str, pl.DataFrame]) -> dict[str, pl.DataFrame]:
+    data = {}
+    for name, rep in reps.items():
         rep = rep.with_columns(
             (pl.col("duplicate_count") / pl.col("duplicate_count").sum()).alias(
                 "frequency"
             )
         )
-        data.append((name, rep))
+        data[name] = rep
     return data
 
 
@@ -75,7 +73,7 @@ def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
     return {rep[NAME_I]: rep[DF_I]["sequence"].to_list() for rep in reps}
 
 
-def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]: 
+def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
     out = {}
     for name, df in reps:
         df = df.with_columns(
@@ -84,7 +82,9 @@ def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFra
             ).alias("clonotype")
         )
         df = df.drop_nulls("clonotype")
-        group = df.group_by("clonotype").agg(pl.col("duplicate_count").sum().alias("duplicate_count"))
+        group = df.group_by("clonotype").agg(
+            pl.col("duplicate_count").sum().alias("duplicate_count")
+        )
         df = df.join(group, on="clonotype")
         df = df.drop("duplicate_count")
         df = df.rename({"duplicate_count_right": "duplicate_count"})
@@ -143,20 +143,21 @@ def course_grain(
 
 
 def filter_seq(
-    overlaps: dict[str, set[str]], data: list[tuple[str, pl.DataFrame]]
+    overlaps: dict[str, set[str]], data: dict[str, pl.DataFrame]
 ) -> dict[str, dict[str, pl.DataFrame]]:
     filtered = {}
-    data_dict = {k: v for k, v in data}
     for name, seqs in overlaps.items():
         reps = name.split("_&_")
         n_regions = len(reps)
         if n_regions != 2:
-            continue
+            ValueError(
+                f"Only 2 region overlaps are supported, not {n_regions}. Check input."
+            )
         rep_seq = {}
         for rep in reps:
-            df = data_dict[rep]
+            df = data[rep]
             df = df.filter(pl.col("sequence").is_in(pl.Series(list(seqs))))
-            df = df.select(["junction_aa", "v_call", "j_call", "frequency"])
+            df = df.select(["clonotype", "frequency"])
             rep_seq[rep] = df
         filtered[name] = rep_seq
     return filtered

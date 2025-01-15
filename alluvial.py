@@ -13,12 +13,11 @@ if __name__ == "__main__":
     for i in range(1, N + 1):
         for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
             filtered = dcr.filter_samples(data, i)
-            filtered = dcr.add_freq_col(filtered)
             filtered = dcr.get_clonotypes(filtered)
-            print(filtered)
             clones = {name: df["clonotype"].to_list() for name, df in filtered.items()}
-            print(clones)
-            # venn = stats.get_venn_clones(clones)
+            filtered = dcr.add_freq_col(filtered)
+            print(filtered)
+            # venn = stats.get_venn2_clones(clones)
             # filtered = dcr.filter_seq(venn, filtered)
             # print(filtered)
             # for overlap in filtered.keys():
