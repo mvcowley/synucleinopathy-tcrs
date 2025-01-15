@@ -75,7 +75,7 @@ def get_seqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
     return {rep[NAME_I]: rep[DF_I]["sequence"].to_list() for rep in reps}
 
 
-def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]:
+def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]: 
     out = {}
     for name, df in reps:
         df = df.with_columns(
@@ -83,7 +83,12 @@ def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, list[str]]
                 pl.col("junction_aa") + " " + pl.col("v_call") + " " + pl.col("j_call")
             ).alias("clonotype")
         )
-        out[name] = df["clonotype"].to_list()
+        df = df.drop_nulls("clonotype")
+        group = df.group_by("clonotype").agg(pl.col("duplicate_count").sum().alias("duplicate_count"))
+        df = df.join(group, on="clonotype")
+        df = df.drop("duplicate_count")
+        df = df.rename({"duplicate_count_right": "duplicate_count"})
+        out[name] = df
     return out
 
 

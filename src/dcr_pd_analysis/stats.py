@@ -76,3 +76,28 @@ def get_venn_seqs(reps: dict[str, list[str]]) -> dict[str, set[str]]:
     venn[all_intersect_name] = base_set
 
     return venn
+
+
+def get_venn_clones(reps: dict[str, list[str]]) -> dict[str, set[str]]:
+    list_reps = [(name, clones) for name, clones in reps.items()]
+    venn = {}
+    for index1, (rep1_name, rep1_clones) in enumerate(list_reps):
+        set1 = set(rep1_clones)
+        print(set1)
+        print(rep1_clones)
+        assert (
+            rep1_clones.sort() == list(set1).sort()
+        )  # Double check that the lists really are sets
+        venn[rep1_name] = set1
+        for rep2_name, rep2_clones in list_reps[index1 + 1 :]:
+            set2 = set(rep2_clones)
+            venn[f"{rep1_name}_&_{rep2_name}"] = set1 & set2
+
+    # All reps intersect in different loop for readability
+    all_intersect_name = "_&_".join([name for name, _ in list_reps])
+    base_set = set(list_reps[0][1])
+    for rep in list_reps[1:]:
+        base_set = base_set & set(rep[1])
+    venn[all_intersect_name] = base_set
+
+    return venn

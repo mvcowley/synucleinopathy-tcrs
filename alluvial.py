@@ -14,9 +14,10 @@ if __name__ == "__main__":
         for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
             filtered = dcr.filter_samples(data, i)
             filtered = dcr.add_freq_col(filtered)
-            seqs = dcr.get_seqs(filtered)
-            venn = stats.get_venn_seqs(seqs)
-            filtered = dcr.filter_seq(venn, filtered)
-            for overlap in filtered.keys():
-                fig = plot.stacked_bar(filtered[overlap])
-                fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
+            clones = dcr.get_clonotypes(filtered)
+            venn = stats.get_venn_clones(clones)
+            # filtered = dcr.filter_seq(venn, filtered)
+            # print(filtered)
+            # for overlap in filtered.keys():
+            #     fig = plot.stacked_bar(filtered[overlap])
+            #     fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
