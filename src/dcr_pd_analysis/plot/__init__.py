@@ -234,14 +234,19 @@ def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
 
 def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
+    fmt_x = [f"{i.split("_")[2]} {i.split("_")[-1]}" for i in x]
     assert len(x) == 2
     df = data[x[0]].join(other=data[x[1]], on="clonotype")
     df = df.sort(["frequency", "frequency_right"], descending=True)
     df = df.head(10)
-    print(x, df)
-    bars = get_bars(df, x)
+    print(fmt_x, df)
+    bars = get_bars(df, fmt_x)
     fig = go.Figure(data=bars)
-    fig.update_layout(barmode="stack", showlegend=True)
+    fig.update_layout(
+        barmode="stack",
+        showlegend=True,
+        yaxis=dict(title=dict(text="Clonotype molecule frequency")),
+    )
     return fig
 
 
