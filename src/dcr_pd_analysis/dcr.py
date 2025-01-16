@@ -55,6 +55,30 @@ def filter_samples(
     return filtered_reps
 
 
+def get_vregions(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
+    out = {}
+    for name, df in reps:
+        df = df.group_by("v_call").agg(
+            pl.col("duplicate_count").sum().alias("duplicate_count"),
+        )
+        out[name] = df
+    return out
+
+
+def merge_vregions(reps: dict[str, pl.DataFrame]) -> pl.DataFrame:
+    for name, rep in reps.items():
+        reps[name] = rep.select(["v_call", "duplicate_count"])
+    keys = list(reps.keys())
+    base = reps[keys[0]]
+    for key in keys[1:]:
+        base = base.join(reps[key], on="v_call", suffix=key, how="full", coalesce=True)
+    base = base.with_columns(
+        pl.sum_horizontal(pl.exclude("v_call")).alias("duplicate_count")
+    )
+    base = base.select(["v_call", "duplicate_count"])
+    return base
+
+
 def add_freq_col(reps: dict[str, pl.DataFrame]) -> dict[str, pl.DataFrame]:
     data = {}
     for name, rep in reps.items():
