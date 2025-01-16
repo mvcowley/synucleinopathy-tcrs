@@ -32,24 +32,50 @@ def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.f
 
 
 def get_venn_counts(reps: dict[str, list[str]]) -> dict[str, int]:
-    # TODO: Subtract counts from overlaps from single tissue counts
-    list_reps = [(name, seqs) for name, seqs in reps.items()]
+    """
+    Gets counts of each region of a venn3 diagram.
+
+    Subtracts higher order overlaps from lower order overlaps.
+
+    E.g.
+
+    Let:
+    region1 = 10
+    region2 = 10
+    region1_&_region2 = 2
+
+    Then:
+    venn(region1) = 8
+    venn(region2) = 8
+    venn(region1_&_region2) = 2
+    """
+    list_reps = [(name, strings) for name, strings in reps.items()]
     venn = {}
-    for index1, (rep1_name, rep1_seq) in enumerate(list_reps):
-        set1 = set(rep1_seq)
+    two_region_names = []
+    for index1, (rep1_name, rep1_strings) in enumerate(list_reps):
+        set1 = set(rep1_strings)
         assert (
-            rep1_seq.sort() == list(set1).sort()
+            rep1_strings.sort() == list(set1).sort()
         )  # Double check that the lists really are sets
         venn[rep1_name] = len(set1)
-        for rep2_name, rep2_seq in list_reps[index1 + 1 :]:
-            set2 = set(rep2_seq)
-            venn[f"{rep1_name}_&_{rep2_name}"] = len(set1 & set2)
+        for rep2_name, rep2_strings in list_reps[index1 + 1 :]:
+            set2 = set(rep2_strings)
+            overlap = len(set1 & set2)
+            venn[rep1_name] -= overlap
+            overlap_name = f"{rep1_name}_&_{rep2_name}"
+            two_region_names.append(overlap_name)
+            venn[overlap_name] = overlap
 
     # All reps intersect in different loop for readability
     all_intersect_name = "_&_".join([name for name, _ in list_reps])
     base_set = set(list_reps[0][1])
     for rep in list_reps[1:]:
         base_set = base_set & set(rep[1])
+    all_overlap = len(base_set)
+    for name, _ in list_reps:
+        venn[name] += all_overlap # Corrects double subtraction
+    for name in two_region_names:
+        venn[name] -= all_overlap
     venn[all_intersect_name] = len(base_set)
 
     return venn
