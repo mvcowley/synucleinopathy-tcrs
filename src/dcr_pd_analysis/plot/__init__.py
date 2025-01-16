@@ -7,6 +7,7 @@ import numpy.typing as npt
 import plotly.colors as co
 import plotly.graph_objects as go
 import polars as pl
+from plotly.subplots import make_subplots
 
 
 def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
@@ -282,11 +283,27 @@ def vregions(
     overlap: dict[str, dict[str, pl.DataFrame]], background: pl.DataFrame
 ) -> go.Figure:
     fig = go.Figure()
-    fig.add_trace(
-        go.Bar(
-            name="Background",
-            x=background["v_call"],
-            y=background["frequency"]
+    colors = co.qualitative.Plotly
+    fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.02)
+    for i in range(3):
+        if not i:
+            legend_bool = True
+        else:
+            legend_bool = False
+        fig.add_trace(
+            go.Bar(
+                name="Background",
+                x=background["v_call"],
+                y=background["frequency"],
+                marker_color=colors[0],
+                showlegend=legend_bool,  # so only one legend for background appears
+                opacity=0.5,
+            ),
+            row=i + 1,
+            col=1,
         )
-    )
+    # for name, df in overlap.items():
+    #     print(name)
+    #     print(df.keys())
+    #     fig.add_trace(go.Bar(name=name, x=df["v_call"], y=df["frequency"]))
     return fig
