@@ -15,9 +15,10 @@ if __name__ == "__main__":
             filtered = dcr.filter_samples(data, i)
             filtered = dcr.get_clonotypes(filtered)
             clones = {name: df["clonotype"].to_list() for name, df in filtered.items()}
-            filtered = dcr.add_freq_col(filtered)
+            # filtered = dcr.add_freq_col(filtered)
             venn = stats.get_venn2_clones(clones)
-            filtered = dcr.filter_seq_select(venn, filtered)
-            for overlap in filtered.keys():
-                fig = plot.stacked_bar(filtered[overlap])
-                fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
+            overlaps = dcr.filter_seq(venn, filtered)
+            print(overlaps)
+            # for overlap in filtered.keys():
+            #     fig = plot.stacked_bar(filtered[overlap])
+            #     fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)

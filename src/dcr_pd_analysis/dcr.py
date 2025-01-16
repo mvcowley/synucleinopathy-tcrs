@@ -89,6 +89,17 @@ def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFra
     return out
 
 
+def get_vregions(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
+    out = {}
+    for name, df in reps:
+        df = df.drop_nulls("v_call")
+        df = df.group_by("v_call").agg(
+            pl.col("duplicate_count").sum().alias("duplicate_count"),
+        )
+        out[name] = df
+    return out
+
+
 def get_seq_freqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, dict[str, int]]:
     seq_counts = {}
     for name, rep in reps:
@@ -140,6 +151,26 @@ def course_grain(
 
 
 def filter_seq(
+    overlaps: dict[str, set[str]], data: dict[str, pl.DataFrame]
+) -> dict[str, dict[str, pl.DataFrame]]:
+    filtered = {}
+    for name, clones in overlaps.items():
+        reps = name.split("_&_")
+        n_regions = len(reps)
+        if n_regions != 2:
+            ValueError(
+                f"Only 2 region overlaps are supported, not {n_regions}. Check input."
+            )
+        rep_seq = {}
+        for rep in reps:
+            df = data[rep]
+            df = df.filter(pl.col("clonotype").is_in(pl.Series(list(clones))))
+            rep_seq[rep] = df
+        filtered[name] = rep_seq
+    return filtered
+
+
+def filter_seq_select(
     overlaps: dict[str, set[str]], data: dict[str, pl.DataFrame]
 ) -> dict[str, dict[str, pl.DataFrame]]:
     filtered = {}
