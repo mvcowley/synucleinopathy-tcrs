@@ -89,10 +89,12 @@ def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFra
     return out
 
 
-def get_vregions(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
+def get_vregions_from_clonotype(
+    reps: dict[str, pl.DataFrame]
+) -> dict[str, pl.DataFrame]:
     out = {}
-    for name, df in reps:
-        df = df.drop_nulls("v_call")
+    for name, df in reps.items():
+        df = df.with_columns(pl.col("clonotype").str.split(" ").list[1].alias("v_call"))
         df = df.group_by("v_call").agg(
             pl.col("duplicate_count").sum().alias("duplicate_count"),
         )

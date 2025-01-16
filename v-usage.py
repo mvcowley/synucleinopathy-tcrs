@@ -18,7 +18,11 @@ if __name__ == "__main__":
             # filtered = dcr.add_freq_col(filtered)
             venn = stats.get_venn2_clones(clones)
             overlaps = dcr.filter_seq(venn, filtered)
-            print(overlaps)
+            vregions = {
+                name: dcr.get_vregions_from_clonotype(overlap)
+                for name, overlap in overlaps.items()
+            }
+            print(vregions)
             # for overlap in filtered.keys():
             #     fig = plot.stacked_bar(filtered[overlap])
             #     fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
