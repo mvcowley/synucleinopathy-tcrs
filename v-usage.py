@@ -15,12 +15,15 @@ if __name__ == "__main__":
             filtered = dcr.filter_samples(data, i)
             filtered = dcr.get_clonotypes(filtered)
             clones = {name: df["clonotype"].to_list() for name, df in filtered.items()}
-            # filtered = dcr.add_freq_col(filtered)
             venn = stats.get_venn2_clones(clones)
             overlaps = dcr.filter_seq(venn, filtered)
             vregions = {
                 name: dcr.get_vregions_from_clonotype(overlap)
                 for name, overlap in overlaps.items()
+            }
+            vregions = {
+                name: dcr.add_freq_col(overlap)
+                for name, overlap in vregions.items()
             }
             print(vregions)
             # for overlap in filtered.keys():
