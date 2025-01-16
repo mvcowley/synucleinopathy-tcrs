@@ -76,6 +76,9 @@ def merge_vregions(reps: dict[str, pl.DataFrame]) -> pl.DataFrame:
         pl.sum_horizontal(pl.exclude("v_call")).alias("duplicate_count")
     )
     base = base.select(["v_call", "duplicate_count"])
+    base = base.with_columns(
+        (pl.col("duplicate_count") / pl.col("duplicate_count").sum()).alias("frequency")
+    )
     return base
 
 
