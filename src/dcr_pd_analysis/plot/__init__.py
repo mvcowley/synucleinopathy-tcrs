@@ -1,6 +1,5 @@
 """Plotting functions"""
 
-from collections.abc import ValuesView
 from typing import Any
 
 import numpy as np
@@ -8,7 +7,6 @@ import numpy.typing as npt
 import plotly.colors as co
 import plotly.graph_objects as go
 import polars as pl
-from plotly.subplots import make_subplots
 
 
 def scatter(data: pl.DataFrame, feature: str) -> go.Figure:
@@ -277,4 +275,18 @@ def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
         ]
     )
 
+    return fig
+
+
+def vregions(
+    overlap: dict[str, dict[str, pl.DataFrame]], background: pl.DataFrame
+) -> go.Figure:
+    fig = go.Figure()
+    fig.add_trace(
+        go.Bar(
+            name="Background",
+            x=background["v_call"],
+            y=background["frequency"]
+        )
+    )
     return fig

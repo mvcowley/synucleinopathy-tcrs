@@ -9,9 +9,9 @@ if __name__ == "__main__":
     )
 
     alpha_vregions = dcr.get_vregions(alpha_reps)
-    alpha_vregions = dcr.merge_vregions(alpha_vregions)
+    alpha_vregions = dcr.merge_vregions(alpha_vregions).sort("v_call")
     beta_vregions = dcr.get_vregions(beta_reps)
-    beta_vregions = dcr.merge_vregions(beta_vregions)
+    beta_vregions = dcr.merge_vregions(beta_vregions).sort("v_call")
 
     N = 8
     id_venn = {}
@@ -31,7 +31,5 @@ if __name__ == "__main__":
             vregions = {
                 name: dcr.add_freq_col(overlap) for name, overlap in vregions.items()
             }
-            print(vregions, background)
-            # for overlap in filtered.keys():
-            #     fig = plot.stacked_bar(filtered[overlap])
-            #     fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
+            fig = plot.vregions(vregions, background)
+            fig.write_image(f"out/vregion/{i}_{chain}_vusage.png", scale=5)
