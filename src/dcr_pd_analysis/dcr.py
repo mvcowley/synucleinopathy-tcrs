@@ -58,8 +58,19 @@ def filter_samples(
 def get_vregions(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
     out = {}
     for name, df in reps:
-        df = df.group_by("v_call").agg(
+        df = df.with_columns(
+            (
+                pl.col("junction_aa") + " " + pl.col("v_call") + " " + pl.col("j_call")
+            ).alias("clonotype")
+        )
+        df = df.drop_nulls("clonotype")
+        df = df.group_by("clonotype").agg(
             pl.col("duplicate_count").sum().alias("duplicate_count"),
+        )
+        df = df.with_columns(pl.lit(1).alias("clonotype_count"))
+        df = df.with_columns(pl.col("clonotype").str.split(" ").list[1].alias("v_call"))
+        df = df.group_by("v_call").agg(
+            pl.col("clonotype_count").sum().alias("clonotype_count"),
         )
         out[name] = df
     return out
