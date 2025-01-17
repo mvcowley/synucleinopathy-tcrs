@@ -28,9 +28,7 @@ if __name__ == "__main__":
             overlaps = dcr.filter_seq(venn, cg_filtered)
             overlaps = dcr.clone_count(overlaps)
             vregions = dcr.get_vregions_from_clonotype(overlaps)
+            vregions = dcr.add_freq_col(vregions, col="clonotype_count")
             print(vregions)
-            # vregions = {
-            #     name: dcr.add_freq_col(overlap) for name, overlap in vregions.items()
-            # }
             # fig = plot.vregions(vregions, background)
             # fig.write_image(f"out/vregion/{i}_{chain}_vusage.png", scale=5)

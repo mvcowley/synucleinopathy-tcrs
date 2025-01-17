@@ -82,11 +82,11 @@ def merge_vregions(reps: dict[str, pl.DataFrame]) -> pl.DataFrame:
     return base
 
 
-def add_freq_col(reps: dict[str, pl.DataFrame]) -> dict[str, pl.DataFrame]:
+def add_freq_col(reps: dict[str, pl.DataFrame], col="duplicate_count") -> dict[str, pl.DataFrame]:
     data = {}
     for name, rep in reps.items():
         rep = rep.with_columns(
-            (pl.col("duplicate_count") / pl.col("duplicate_count").sum()).alias(
+            (pl.col(col) / pl.col(col).sum()).alias(
                 "frequency"
             )
         )
