@@ -279,9 +279,7 @@ def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
     return fig
 
 
-def vregions(
-    overlap: dict[str, dict[str, pl.DataFrame]], background: pl.DataFrame
-) -> go.Figure:
+def vregions(overlap: dict[str, pl.DataFrame], background: pl.DataFrame) -> go.Figure:
     PLOTS = 3
     fig = go.Figure()
     colors = co.qualitative.Plotly
@@ -304,13 +302,23 @@ def vregions(
             row=i + 1,
             col=1,
         )
-    for index1, (ov, tissues) in enumerate(overlap.items()):
-        print(ov)
-        for index2, (name, df) in enumerate(tissues.items()):
-            df = df.sort("v_call")
-            fig.add_trace(
-                go.Bar(name=name, x=df["v_call"], y=df["frequency"], marker_color=colors[index1 + index2 + 1], offsetgroup=index2 + 1),
-                row=index1 + 1,
-                col=1,
-            )
+    for i, (ov_name, df) in enumerate(overlap.items()):
+        split_name = ov_name.split("_")
+        tissue1 = split_name[2]
+        tissue2 = split_name[8]
+        chain = split_name[4]
+        plot_name = f"{tissue1} {tissue2} {chain}"
+        print(plot_name)
+        df = df.sort("v_call")
+        fig.add_trace(
+            go.Bar(
+                name=plot_name,
+                x=df["v_call"],
+                y=df["frequency"],
+                marker_color=colors[i + 1],
+                offsetgroup=i + 1,
+            ),
+            row=i + 1,
+            col=1,
+        )
     return fig
