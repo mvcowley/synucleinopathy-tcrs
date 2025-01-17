@@ -9,9 +9,9 @@ if __name__ == "__main__":
     )
 
     alpha_vregions = dcr.get_vregions(alpha_reps)
-    alpha_vregions = dcr.merge_vregions(alpha_vregions).sort("v_call")
+    alpha_vregions = dcr.merge_vregions(alpha_vregions).sort("frequency", descending=True)
     beta_vregions = dcr.get_vregions(beta_reps)
-    beta_vregions = dcr.merge_vregions(beta_vregions).sort("v_call")
+    beta_vregions = dcr.merge_vregions(beta_vregions).sort("frequency", descending=True)
 
     N = 8
     id_venn = {}
