@@ -281,9 +281,16 @@ def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
 
 def vregions(overlap: dict[str, pl.DataFrame], background: pl.DataFrame) -> go.Figure:
     PLOTS = 3
+    SIZE = 8
     fig = go.Figure()
     colors = co.qualitative.Plotly
-    fig = make_subplots(rows=PLOTS, cols=1, shared_xaxes=True, vertical_spacing=0.02)
+    fig = make_subplots(
+        rows=PLOTS,
+        cols=1,
+        shared_xaxes=True,
+        vertical_spacing=0.02,
+        y_title="V Region Usage Frequency",
+    )
     for i in range(PLOTS):
         if not i:
             legend_bool = True
@@ -307,7 +314,7 @@ def vregions(overlap: dict[str, pl.DataFrame], background: pl.DataFrame) -> go.F
         tissue1 = split_name[2]
         tissue2 = split_name[8]
         chain = split_name[4]
-        plot_name = f"{tissue1} {tissue2} {chain}"
+        plot_name = f"{tissue1}-{tissue2} {chain}"
         print(plot_name)
         df = df.sort("v_call")
         fig.add_trace(
@@ -316,9 +323,11 @@ def vregions(overlap: dict[str, pl.DataFrame], background: pl.DataFrame) -> go.F
                 x=df["v_call"],
                 y=df["frequency"],
                 marker_color=colors[i + 1],
-                offsetgroup=i + 1,
+                offsetgroup=1,
             ),
             row=i + 1,
             col=1,
         )
+    fig.update_layout(font=dict(size=SIZE))
+    fig.update_annotations(font_size=SIZE)
     return fig
