@@ -263,3 +263,15 @@ def filter_seq_select(
             rep_seq[rep] = df
         filtered[name] = rep_seq
     return filtered
+
+
+def clone_count(data: dict[str, dict[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
+    out = {}
+    for ov_name, overlap in data.items():
+        keys = list(overlap.keys())
+        df = overlap[keys[0]]
+        df = df.with_columns(pl.lit(1).alias("clonotype_count"))
+        df = df.drop("duplicate_count")
+        out[ov_name] = df
+    return out
+

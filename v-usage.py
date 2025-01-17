@@ -26,12 +26,15 @@ if __name__ == "__main__":
             cg_clones = dcr.course_grain(clones, ["HB", "ST"], "BR")
             venn = stats.get_venn2_clones(cg_clones)
             overlaps = dcr.filter_seq(venn, cg_filtered)
-            vregions = {
-                name: dcr.get_vregions_from_clonotype(overlap)
-                for name, overlap in overlaps.items()
-            }
-            vregions = {
-                name: dcr.add_freq_col(overlap) for name, overlap in vregions.items()
-            }
-            fig = plot.vregions(vregions, background)
-            fig.write_image(f"out/vregion/{i}_{chain}_vusage.png", scale=5)
+            overlaps = dcr.clone_count(overlaps)
+            print(overlaps)
+            # vregions = {
+            #     name: dcr.get_vregions_from_clonotype(overlap)
+            #     for name, overlap in overlaps.items()
+            # }
+            # print(vregions)
+            # vregions = {
+            #     name: dcr.add_freq_col(overlap) for name, overlap in vregions.items()
+            # }
+            # fig = plot.vregions(vregions, background)
+            # fig.write_image(f"out/vregion/{i}_{chain}_vusage.png", scale=5)
