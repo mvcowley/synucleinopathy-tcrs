@@ -78,17 +78,17 @@ def get_vregions(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame
 
 def merge_vregions(reps: dict[str, pl.DataFrame]) -> pl.DataFrame:
     for name, rep in reps.items():
-        reps[name] = rep.select(["v_call", "duplicate_count"])
+        reps[name] = rep.select(["v_call", "clonotype_count"])
     keys = list(reps.keys())
     base = reps[keys[0]]
     for key in keys[1:]:
         base = base.join(reps[key], on="v_call", suffix=key, how="full", coalesce=True)
     base = base.with_columns(
-        pl.sum_horizontal(pl.exclude("v_call")).alias("duplicate_count")
+        pl.sum_horizontal(pl.exclude("v_call")).alias("clonotype_count")
     )
-    base = base.select(["v_call", "duplicate_count"])
+    base = base.select(["v_call", "clonotype_count"])
     base = base.with_columns(
-        (pl.col("duplicate_count") / pl.col("duplicate_count").sum()).alias("frequency")
+        (pl.col("clonotype_count") / pl.col("clonotype_count").sum()).alias("frequency")
     )
     return base
 
