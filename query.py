@@ -23,4 +23,4 @@ if __name__ == "__main__":
             for name, tissues in overlaps.items():
                 keys = list(tissues.keys())
                 queries[name] = tissues[keys[0]]["clonotype"]
-            print(queries)
+            tcric.make_csv(queries, chain)
