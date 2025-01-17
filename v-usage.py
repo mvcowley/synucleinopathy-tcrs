@@ -27,12 +27,8 @@ if __name__ == "__main__":
             venn = stats.get_venn2_clones(cg_clones)
             overlaps = dcr.filter_seq(venn, cg_filtered)
             overlaps = dcr.clone_count(overlaps)
-            print(overlaps)
-            # vregions = {
-            #     name: dcr.get_vregions_from_clonotype(overlap)
-            #     for name, overlap in overlaps.items()
-            # }
-            # print(vregions)
+            vregions = dcr.get_vregions_from_clonotype(overlaps)
+            print(vregions)
             # vregions = {
             #     name: dcr.add_freq_col(overlap) for name, overlap in vregions.items()
             # }

@@ -123,7 +123,7 @@ def get_vregions_from_clonotype(
     for name, df in reps.items():
         df = df.with_columns(pl.col("clonotype").str.split(" ").list[1].alias("v_call"))
         df = df.group_by("v_call").agg(
-            pl.col("duplicate_count").sum().alias("duplicate_count"),
+            pl.col("clonotype_count").sum().alias("clonotype_count"),
         )
         out[name] = df
     return out
