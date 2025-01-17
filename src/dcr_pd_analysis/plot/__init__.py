@@ -289,7 +289,7 @@ def vregions(overlap: dict[str, pl.DataFrame], background: pl.DataFrame) -> go.F
         cols=1,
         shared_xaxes=True,
         vertical_spacing=0.02,
-        y_title="V Region Usage Frequency",
+        y_title="Clonotype V Region Usage Frequency",
     )
     for i in range(PLOTS):
         if not i:
