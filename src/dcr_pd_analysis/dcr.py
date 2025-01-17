@@ -139,6 +139,51 @@ def get_seq_freqs(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, dict[str, i
     return seq_counts
 
 
+def course_grain_df(
+    reps: dict[str, pl.DataFrame], tissues: list[str], merge_name: str
+) -> dict[str, pl.DataFrame]:
+    NAME_I = 0
+    DF_I = 1
+    SAMPLE_CODE_I = 2
+    INDIVIDUAL_I = -1
+
+    selected_tissues = {
+        rep[NAME_I]: rep[DF_I]
+        for rep in reps.items()
+        if rep[NAME_I].split("_")[SAMPLE_CODE_I][:INDIVIDUAL_I] in tissues
+    }
+
+    if len(selected_tissues) <= 1:
+        warnings.warn(
+            f"Only {len(selected_tissues)} tissues matched your search. No course graining applied"
+        )
+        return reps
+
+    reps = {
+        rep[NAME_I]: rep[DF_I]
+        for rep in reps.items()
+        if rep[NAME_I].split("_")[SAMPLE_CODE_I][:INDIVIDUAL_I] not in tissues
+    }
+
+    keys = list(selected_tissues.keys())
+    base = selected_tissues[keys[0]]
+    for key in keys[1:]:
+        other = selected_tissues[key].select(["clonotype", "duplicate_count"])
+        base = base.join(other, on="clonotype", how="full", coalesce=True)
+    base = base.with_columns(
+        pl.sum_horizontal(pl.exclude("clonotype")).alias("duplicate_count")
+    )
+    base = base.select("clonotype", "duplicate_count")
+
+    id = list(reps.keys())[0].split("_")[2][-1]
+    prefix = "_".join(list(reps.keys())[0].split("_")[:2])
+    suffix = "_".join(list(reps.keys())[0].split("_")[-2:])
+    new_key = f"{prefix}_{merge_name}{id}_{suffix}"
+    reps[new_key] = base
+
+    return reps
+
+
 def course_grain(
     reps: dict[str, list[str]], tissues: list[str], merge_name: str
 ) -> dict[str, list[str]]:

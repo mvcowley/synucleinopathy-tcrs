@@ -282,7 +282,7 @@ def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
 def vregions(
     overlap: dict[str, dict[str, pl.DataFrame]], background: pl.DataFrame
 ) -> go.Figure:
-    PLOTS = 6
+    PLOTS = 3
     fig = go.Figure()
     colors = co.qualitative.Plotly
     fig = make_subplots(rows=PLOTS, cols=1, shared_xaxes=True, vertical_spacing=0.02)
