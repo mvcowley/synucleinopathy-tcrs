@@ -86,7 +86,7 @@ def add_p_value_annotation(
         ]
 
         # Get the p-value
-        pvalue = stats.brunnermunzel(
+        pvalue = stats.mannwhitneyu(
             filtered_data0,
             filtered_data1,
         )[1]
@@ -149,7 +149,7 @@ def add_p_value_annotation(
                 x=(column_pair[0] + column_pair[1]) / 2,
                 y=y_range[index][1] + _format["text_height"],
                 showarrow=False,
-                text=f"B-M: p={symbol:0.2e}",
+                text=f"M-U: p={symbol:0.2e}",
                 textangle=0,
                 xref="x" + subplot_str,
                 yref="y" + subplot_str + " domain",
