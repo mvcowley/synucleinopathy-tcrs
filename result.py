@@ -9,5 +9,5 @@ if __name__ == "__main__":
         file.resolve().__str__().split("/")[-1].split(".")[0]: pl.read_csv(file)
         for file in files
     }
-    dropped = {name: df.drop_nulls() for name, df in data.items()}
+    dropped = {name: df.drop_nulls("valpha.id") for name, df in data.items()}
     print(dropped)
