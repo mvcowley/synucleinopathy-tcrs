@@ -91,8 +91,8 @@ def cond_box(
 def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
     colors = co.qualitative.Plotly
-    alpha_colors = [i for i in range(2)] * 6
-    beta_colors = [i + 2 for i in range(2)] * 6
+    alpha_colors = [i for i in range(2)]
+    beta_colors = [i + 2 for i in range(2)]
     color_index = alpha_colors + beta_colors
     for (name, values), color in zip(data.items(), color_index):
         fig.add_trace(
@@ -110,17 +110,6 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
             )
         )
 
-    legend_names = [
-        "Control Alpha",
-        "Parkinson's Alpha",
-        "Control Beta",
-        "Parkinson's Beta",
-    ]
-    for index, name in enumerate(legend_names):
-        fig.add_trace(
-            go.Box(x=[np.nan], y=[np.nan], name=name, line_color=colors[index])
-        )
-
     fig.update_layout(
         yaxis=dict(title=dict(text="Jaccard Index")),
         font=dict(
@@ -128,6 +117,7 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
             size=8,
         ),
     )
+    fig.update_layout(width=500, height=500, autosize=False)
     return fig
 
 

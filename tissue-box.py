@@ -18,30 +18,21 @@ if __name__ == "__main__":
         filtered_betas = dcr.filter_tissue(filtered_betas, ["D", "ME"])
         alpha_jac_mat = stats.get_jaccard_matrix(filtered_alphas)
         beta_jac_mat = stats.get_jaccard_matrix(filtered_betas)
-        # id_overlap[i] = {"Alpha": alpha_jac_mat, "Beta": beta_jac_mat}
-        id_overlap[i] = {"A": alpha_jac_mat, "B": beta_jac_mat}
+        id_overlap[i] = {"Alpha": alpha_jac_mat[0, 1], "Beta": beta_jac_mat[0, 1]}
 
     # Corrected and confirmed by Seppe on 13/01/2025
-    # conditions = {"Control": [5, 6, 7, 8], "Parkinson's": [1, 2, 3, 4]}
-    conditions = {"C": [5, 6, 7, 8], "P": [1, 2, 3, 4]}
-    # tissues = ["Hindbrain", "Dura", "Muscularis", "Striatum"]
-    tissues = ["H", "D", "M", "S"]
-    # chains = ["Alpha", "Beta"]
-    chains = ["A", "B"]
+    conditions = {"Control": [5, 6, 7, 8], "Parkinson's": [1, 2, 3, 4]}
+    chains = ["Alpha", "Beta"]
     sample_overlap = {}
     for condition, condition_indicies in conditions.items():
-        for tissue_index1, tissue1 in enumerate(tissues):
-            for tissue_index2, tissue2 in enumerate(tissues[tissue_index1 + 1 :]):
-                for chain in chains:
-                    data = [
-                        float(
-                            id_overlap[condition_index][chain][tissue_index1][
-                                tissue_index1 + tissue_index2 + 1
-                            ]
-                        )
-                        for condition_index in condition_indicies
-                    ]
-                    sample_overlap[f"{condition} {tissue1}-{tissue2} {chain}"] = data
+        for chain in chains:
+            print(condition_indicies, chain)
+            print(id_overlap[condition_indicies[0]][chain])
+            data = [
+                float(id_overlap[condition_index][chain])
+                for condition_index in condition_indicies
+            ]
+            sample_overlap[f"{condition}-{chain}"] = data
 
     sorted_data = {
         k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
