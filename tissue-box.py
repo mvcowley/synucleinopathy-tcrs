@@ -12,9 +12,8 @@ if __name__ == "__main__":
     N = 8
     id_overlap = {}
     for i in range(1, N + 1):
-        filtered_alphas = dcr.filter_samples(alpha_reps, i)
-        print(filtered_alphas)
-        filtered_betas = dcr.filter_samples(beta_reps, i)
+        filtered_alphas = dcr.filter_sample_id(alpha_reps, i)
+        filtered_betas = dcr.filter_sample_id(beta_reps, i)
         alpha_jac_mat = stats.get_jaccard_matrix(filtered_alphas)
         beta_jac_mat = stats.get_jaccard_matrix(filtered_betas)
         # id_overlap[i] = {"Alpha": alpha_jac_mat, "Beta": beta_jac_mat}
