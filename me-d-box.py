@@ -13,8 +13,8 @@ if __name__ == "__main__":
     alpha_points = []
     beta_points = []
     for i in range(1, N + 1):
-        filtered_alphas = dcr.filter_samples(alpha_reps, i)
-        filtered_betas = dcr.filter_samples(beta_reps, i)
+        filtered_alphas = dcr.filter_sample_id(alpha_reps, i)
+        filtered_betas = dcr.filter_sample_id(beta_reps, i)
         alpha_jac_mat = stats.get_jaccard_matrix(filtered_alphas)
         beta_jac_mat = stats.get_jaccard_matrix(filtered_betas)
         alpha_points.append(alpha_jac_mat[DURA, MUSCULARIS])

@@ -12,7 +12,7 @@ if __name__ == "__main__":
     id_venn = {}
     for i in range(1, N + 1):
         for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
-            filtered = dcr.filter_samples(data, i)
+            filtered = dcr.filter_sample_id(data, i)
             seqs = dcr.get_seqs(filtered)
             cg_seqs = dcr.course_grain(seqs, ["HB", "ST"], "BR")
             venn = stats.get_venn_counts(cg_seqs)

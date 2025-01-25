@@ -19,7 +19,7 @@ if __name__ == "__main__":
         for data, chain, background in zip(
             [alpha_reps, beta_reps], ["alpha", "beta"], [alpha_vregions, beta_vregions]
         ):
-            filtered = dcr.filter_samples(data, i)
+            filtered = dcr.filter_sample_id(data, i)
             filtered = dcr.get_clonotypes(filtered)
             clones = {name: df["clonotype"].to_list() for name, df in filtered.items()}
             cg_filtered = dcr.course_grain_df(filtered, ["HB", "ST"], "BR")
