@@ -41,7 +41,7 @@ def load_reps(path: str, glob: str, expected: int) -> list[tuple[str, pl.DataFra
     ]
 
 
-def filter_samples(
+def filter_sample_id(
     reps: list[tuple[str, pl.DataFrame]], key: int
 ) -> list[tuple[str, pl.DataFrame]]:
     NAME_I = 0
@@ -51,6 +51,20 @@ def filter_samples(
         rep
         for rep in reps
         if int(rep[NAME_I].split("_")[SAMPLE_CODE_I][INDIVIDUAL_I]) == key
+    ]
+    return filtered_reps
+
+
+def filter_tissue(
+    reps: list[tuple[str, pl.DataFrame]], key: list[str]
+) -> list[tuple[str, pl.DataFrame]]:
+    NAME_I = 0
+    SAMPLE_CODE_I = 2
+    INDIVIDUAL_I = -1
+    filtered_reps = [
+        rep
+        for rep in reps
+        if rep[NAME_I].split("_")[SAMPLE_CODE_I][:INDIVIDUAL_I] in key
     ]
     return filtered_reps
 
@@ -93,14 +107,12 @@ def merge_vregions(reps: dict[str, pl.DataFrame]) -> pl.DataFrame:
     return base
 
 
-def add_freq_col(reps: dict[str, pl.DataFrame], col="duplicate_count") -> dict[str, pl.DataFrame]:
+def add_freq_col(
+    reps: dict[str, pl.DataFrame], col="duplicate_count"
+) -> dict[str, pl.DataFrame]:
     data = {}
     for name, rep in reps.items():
-        rep = rep.with_columns(
-            (pl.col(col) / pl.col(col).sum()).alias(
-                "frequency"
-            )
-        )
+        rep = rep.with_columns((pl.col(col) / pl.col(col).sum()).alias("frequency"))
         data[name] = rep
     return data
 
@@ -285,4 +297,3 @@ def clone_count(data: dict[str, dict[str, pl.DataFrame]]) -> dict[str, pl.DataFr
         df = df.drop("duplicate_count")
         out[ov_name] = df
     return out
-
