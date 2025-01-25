@@ -32,7 +32,7 @@ if __name__ == "__main__":
                 float(id_overlap[condition_index][chain])
                 for condition_index in condition_indicies
             ]
-            sample_overlap[f"{condition}-{chain}"] = data
+            sample_overlap[f"{condition} {chain}"] = data
 
     sorted_data = {
         k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])

@@ -37,8 +37,8 @@ def add_p_value_annotation(
     for i in range(len(array_columns)):
         # y_range[i] = [1.01 + i * _format["interline"], 1.02 + i * _format["interline"]]
         y_range[i] = [
-            1.01 + (i % 2) * _format["interline"],
-            1.02 + (i % 2) * _format["interline"],
+            1.01,
+            1.02,
         ]
 
     # Get values from figure
@@ -149,7 +149,7 @@ def add_p_value_annotation(
                 x=(column_pair[0] + column_pair[1]) / 2,
                 y=y_range[index][1] + _format["text_height"],
                 showarrow=False,
-                text=f"M-U: p={symbol:0.2e}",
+                text=f"<i>p</i>={symbol:0.2e}",
                 textangle=0,
                 xref="x" + subplot_str,
                 yref="y" + subplot_str + " domain",
