@@ -3,10 +3,26 @@ import numpy.typing as npt
 import polars as pl
 
 
-def get_jaccard_index(sample1: pl.DataFrame, sample2: pl.DataFrame) -> float:
-    KEY = "sequence"
-    series1 = sample1.get_column(KEY).drop_nulls().unique()
-    series2 = sample2.get_column(KEY).drop_nulls().unique()
+def get_jaccard_index(
+    sample1: pl.DataFrame, sample2: pl.DataFrame, col="sequence"
+) -> float:
+    """
+    Function which computes the Jaccard index of a given string type column of two dataframes.
+
+    ...
+
+    Parameters
+    ----------
+        sample1: First polars DataFrame to compare
+        sample2: Second polars DataFrame to compare
+        col: String type column to compute Jaccard upon
+
+    Returns
+    -------
+        A float representation of the Jaccard index
+    """
+    series1 = sample1.get_column(col).drop_nulls().unique()
+    series2 = sample2.get_column(col).drop_nulls().unique()
 
     intersection = series1.filter(series1.is_in(series2))
     union = pl.concat([series1, series2], rechunk=True).unique()
@@ -73,7 +89,7 @@ def get_venn_counts(reps: dict[str, list[str]]) -> dict[str, int]:
         base_set = base_set & set(rep[1])
     all_overlap = len(base_set)
     for name, _ in list_reps:
-        venn[name] += all_overlap # Corrects double subtraction
+        venn[name] += all_overlap  # Corrects double subtraction
     for name in two_region_names:
         venn[name] -= all_overlap
     venn[all_intersect_name] = len(base_set)
