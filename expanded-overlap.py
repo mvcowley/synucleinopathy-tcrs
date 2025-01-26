@@ -1,6 +1,7 @@
 import polars as pl
 
 from dcr_pd_analysis import dcr, plot, stats
+from dcr_pd_analysis.plot import annotate
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
@@ -32,7 +33,6 @@ if __name__ == "__main__":
                 filtered[f"dcr_PKD_ME{i}_1_{chain}"],
                 col="clonotype",
             )
-            print(expanded_in_me_in_d, expanded_in_d_in_me)
             id_expanded[i] |= {
                 f"{chain}-Muscularis -> Dura": expanded_in_me_in_d,
                 f"{chain}-Dura -> Muscularis": expanded_in_d_in_me,
@@ -50,27 +50,20 @@ if __name__ == "__main__":
                     float(id_expanded[condition_index][f"{chain}-{direction}"])
                     for condition_index in condition_indicies
                 ]
-                sample_overlap[f"{condition} {chain} {direction}"] = data
+                sample_overlap[f"{condition} {chain.capitalize()} {direction}"] = data
 
-    # sorted_data = {
-    #     k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
-    # }
-    #
-    # print(sorted_data)
-    #
-    # fig = plot.tissue_box(sorted_data)
-    # annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
-    # annotate.add_p_value_annotation(
-    #     fig,
-    #     annotation_list,
-    #     _format=dict(interline=0.02, width=1, text_height=0.03, color="black"),
-    # )
-    # fig.write_image("out/tissue_box.png", scale=5)
-    #
-    # # clones = {name: df["clonotype"].to_list() for name, df in filtered.items()}
-    # # filtered = dcr.add_freq_col(filtered)
-    # # venn = stats.get_venn2_clones(clones)
-    # # filtered = dcr.filter_seq_select(venn, filtered)
-    # # for overlap in filtered.keys():
-    # #     fig = plot.stacked_bar(filtered[overlap])
-    # #     fig.write_image(f"out/alluvial/{i}_{chain}_{overlap}_alluvial.png", scale=5)
+    sorted_data = {
+        k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
+    }
+
+    print(sorted_data)
+
+    fig = plot.expanded_box(sorted_data)
+    annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
+    print(annotation_list)
+    annotate.add_p_value_annotation(
+        fig,
+        annotation_list,
+        _format=dict(interline=0.02, width=1, text_height=0.03, color="black"),
+    )
+    fig.write_image("out/expanded_box.png", scale=5)

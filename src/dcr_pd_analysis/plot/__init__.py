@@ -118,6 +118,36 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     return fig
 
 
+def expanded_box(data: dict[str, list[float]]) -> go.Figure:
+    fig = go.Figure()
+    colors = co.qualitative.Plotly
+    alpha_colors = [i for i in range(2)] * 2
+    beta_colors = [i + 2 for i in range(2)] * 2
+    color_index = alpha_colors + beta_colors
+    for (name, values), color in zip(data.items(), color_index):
+        fig.add_trace(
+            go.Box(
+                y=values,
+                name=name,
+                boxpoints="all",
+                jitter=0.5,
+                whiskerwidth=0.2,
+                marker_color=colors[color],
+                line_color=colors[color],
+                marker_size=2,
+                line_width=1,
+                showlegend=False,
+            )
+        )
+
+    fig.update_layout(
+        yaxis=dict(title=dict(text="Expanded Index")),
+        font=dict(size=8),
+    )
+    fig.update_layout(width=500, height=500, autosize=False)
+    return fig
+
+
 def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
     fig = go.Figure()
     colors = co.qualitative.Plotly
