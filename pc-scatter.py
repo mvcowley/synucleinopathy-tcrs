@@ -1,3 +1,4 @@
+import numpy as np
 import polars as pl
 import pyrepseq as prs
 
@@ -11,13 +12,19 @@ if __name__ == "__main__":
     beta_reps = dcr.load_reps(
         "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
     )
+    reps = alpha_reps + beta_reps
 
-    for data, chain in zip([alpha_reps, beta_reps], ["alpha", "beta"]):
-        filtered = dcr.filter_tissue(data, ["D", "ME"])
-        filtered = dcr.get_pc_clonotypes(filtered)
-        pc = {name: prs.pc(df.to_pandas()["count"]) for name, df in filtered.items()}
-        var_pc = {
-            name: prs.varpc_n(df.to_pandas()["count"]) for name, df in filtered.items()
-        }
-        print(pc)
-        print(var_pc)
+    filtered = dcr.filter_tissue(reps, ["D", "ME"])
+    filtered = dcr.get_pc_clonotypes(filtered)
+    filtered = {" ".join(name.split("_")[2::2]): df for name, df in filtered.items()}
+    pc = {name: prs.pc(df.to_pandas()["count"]) for name, df in filtered.items()}
+    var_pc = {
+        name: np.sqrt(prs.varpc_n(df.to_pandas()["count"]))
+        for name, df in filtered.items()
+    }
+
+    print(pc)
+    print(var_pc)
+
+    fig = plot.pc_scatter(pc, var_pc)
+    fig.write_image("out/pc_scatter.png", scale=5)

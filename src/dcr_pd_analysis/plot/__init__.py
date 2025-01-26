@@ -348,3 +348,30 @@ def vregions(overlap: dict[str, pl.DataFrame], background: pl.DataFrame) -> go.F
     fig.update_layout(font=dict(size=SIZE))
     fig.update_annotations(font_size=SIZE)
     return fig
+
+
+def pc_scatter(pc: dict[str, float], var_pc: dict[str, float]) -> go.Figure:
+    theme = co.qualitative.Plotly
+    colors = [[i] * 8 for i in range(4)]
+    colors = [j for i in colors for j in i]
+    colors = [theme[i] for i in colors]
+    fig = go.Figure(
+        data=go.Scatter(
+            x=list(pc.keys()),
+            y=list(pc.values()),
+            error_y=dict(
+                type="data",
+                array=list(var_pc.values()),
+                visible=True,
+                width=1.5,
+                thickness=3,
+            ),
+            mode="markers",
+            marker_size=4,
+            marker_color=colors,
+        )
+    )
+    fig.update_layout(
+        yaxis=dict(title=dict(text=r"$\hat{p_C}$")),
+    )
+    return fig

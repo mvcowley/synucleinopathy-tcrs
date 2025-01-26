@@ -144,7 +144,10 @@ def get_pc_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.Data
     for name, df in reps:
         df = df.with_columns((pl.col("junction_aa")).alias("clonotype"))
         df = df.drop_nulls("clonotype")
-        df = df.group_by("clonotype").agg(pl.col("clonotype").len().alias("count"))
+        # df = df.group_by("clonotype").agg(pl.col("clonotype").len().alias("count"))
+        df = df.group_by("clonotype").agg(
+            pl.col("duplicate_count").sum().alias("count")
+        )
         out[name] = df
     return out
 
