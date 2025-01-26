@@ -10,6 +10,8 @@ dependencies = [
     "kaleido==0.1",
     "numpy>=2.2.0",
     "scipy>=1.15.0",
+    "pyrepseq>=1.5.1",
+    "pyarrow>=19.0.0",
 ]
 
 [build-system]

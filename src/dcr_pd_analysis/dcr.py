@@ -139,6 +139,16 @@ def get_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFra
     return out
 
 
+def get_pc_clonotypes(reps: list[tuple[str, pl.DataFrame]]) -> dict[str, pl.DataFrame]:
+    out = {}
+    for name, df in reps:
+        df = df.with_columns((pl.col("junction_aa")).alias("clonotype"))
+        df = df.drop_nulls("clonotype")
+        df = df.group_by("clonotype").agg(pl.col("clonotype").len().alias("count"))
+        out[name] = df
+    return out
+
+
 def get_vregions_from_clonotype(
     reps: dict[str, pl.DataFrame]
 ) -> dict[str, pl.DataFrame]:
