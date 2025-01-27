@@ -147,6 +147,7 @@ def expanded_box(data: dict[str, list[float]]) -> go.Figure:
     fig.update_layout(width=500, height=500, autosize=False)
     return fig
 
+
 def pc_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
     colors = co.qualitative.Plotly
@@ -170,11 +171,10 @@ def pc_box(data: dict[str, list[float]]) -> go.Figure:
         )
 
     fig.update_layout(
-        yaxis=dict(title=dict(text=r"$\hat{p_C}$")),
+        yaxis=dict(title=dict(text="Effective Number of Species")),
     )
     fig.update_layout(width=500, height=500, autosize=False)
     return fig
-
 
 
 def venn3(data: dict[str, int], left: str, right: str, bot: str) -> go.Figure:
@@ -401,6 +401,6 @@ def pc_scatter(pc: dict[str, float], var_pc: dict[str, float]) -> go.Figure:
         )
     )
     fig.update_layout(
-        yaxis=dict(title=dict(text=r"$\hat{p_C}$")),
+        yaxis=dict(title=dict(text="Transcript clonotype diversity")),
     )
     return fig

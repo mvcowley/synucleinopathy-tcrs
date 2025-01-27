@@ -17,7 +17,7 @@ if __name__ == "__main__":
     filtered = dcr.filter_tissue(reps, ["D", "ME"])
     filtered = dcr.get_pc_clonotypes(filtered)
     filtered = {" ".join(name.split("_")[2::2]): df for name, df in filtered.items()}
-    pc = {name: prs.pc(df.to_pandas()["count"]) for name, df in filtered.items()}
+    pc = {name: 1 / prs.pc(df.to_pandas()["count"]) for name, df in filtered.items()}
     var_pc = {
         name: np.sqrt(prs.varpc_n(df.to_pandas()["count"]))
         for name, df in filtered.items()
