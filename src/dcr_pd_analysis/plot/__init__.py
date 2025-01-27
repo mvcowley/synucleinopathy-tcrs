@@ -113,8 +113,11 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     fig.update_layout(
         yaxis=dict(title=dict(text="Jaccard Index")),
         font=dict(size=8),
+        margin=dict(l=20, r=20, t=20, b=20),
+        width=500,
+        height=500,
+        autosize=False,
     )
-    fig.update_layout(width=500, height=500, autosize=False)
     return fig
 
 

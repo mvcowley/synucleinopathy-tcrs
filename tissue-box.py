@@ -16,8 +16,8 @@ if __name__ == "__main__":
         filtered_alphas = dcr.filter_tissue(filtered_alphas, ["D", "ME"])
         filtered_betas = dcr.filter_sample_id(beta_reps, i)
         filtered_betas = dcr.filter_tissue(filtered_betas, ["D", "ME"])
-        alpha_jac_mat = stats.get_jaccard_matrix(filtered_alphas)
-        beta_jac_mat = stats.get_jaccard_matrix(filtered_betas)
+        alpha_jac_mat = stats.get_similarity_matrix(filtered_alphas, stats.get_jaccard_index)
+        beta_jac_mat = stats.get_similarity_matrix(filtered_betas, stats.get_jaccard_index)
         id_overlap[i] = {"Alpha": alpha_jac_mat[0, 1], "Beta": beta_jac_mat[0, 1]}
 
     # Corrected and confirmed by Seppe on 13/01/2025

@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import numpy as np
 import numpy.typing as npt
 import polars as pl
@@ -31,6 +33,74 @@ def get_jaccard_index(
 
     if len(union) > 0:
         overlap = len(intersection) / len(union)
+    else:
+        overlap = 0
+
+    return float(overlap)
+
+
+def get_jaccard_product_index(
+    sample1: pl.DataFrame, sample2: pl.DataFrame, col="sequence"
+) -> float:
+    """
+    Function which computes the Jaccard index of a given string type column of two dataframes but uses the product of the two set sizes as the denominator.
+
+    ...
+
+    Parameters
+    ----------
+        sample1: First polars DataFrame to compare
+        sample2: Second polars DataFrame to compare
+        col: String type column to compute Jaccard upon
+
+    Returns
+    -------
+        A float representation of the Jaccard-product index
+    """
+    series1 = sample1.get_column(col).drop_nulls().unique()
+    series2 = sample2.get_column(col).drop_nulls().unique()
+
+    intersection = series1.filter(series1.is_in(series2))
+    union = pl.concat([series1, series2], rechunk=True).unique()
+
+    assert series1.shape[0] + series2.shape[0] - intersection.shape[0] == union.shape[0]
+
+    if len(union) > 0:
+        overlap = intersection.shape[0] / (series1.shape[0] * series2.shape[0])
+    else:
+        overlap = 0
+
+    return float(overlap)
+
+
+def get_dice_sorensen_index(
+    expanded: pl.DataFrame, target: pl.DataFrame, col="sequence"
+) -> float:
+    """
+    Function which computes the expanded index of a given string type column of two dataframes.
+
+    ...
+
+    Parameters
+    ----------
+        expanded: First polars DataFrame to compare comprised of only expanded clones
+        target: Second polars DataFrame to compare comprised of all clones
+        col: String type column to compute index upon
+
+    Returns
+    -------
+        A float representation of the index
+    """
+    series1 = expanded.get_column(col).drop_nulls().unique()
+    series2 = target.get_column(col).drop_nulls().unique()
+
+    intersection = series1.filter(series1.is_in(series2))
+    union = pl.concat([series1, series2], rechunk=True).unique()
+
+    assert series1.shape[0] + series2.shape[0] - intersection.shape[0] == union.shape[0]
+
+    if len(union) > 0:
+        overlap = 2 * len(intersection) / (series1.shape[0] + series2.shape[0])
     else:
         overlap = 0
 
@@ -71,6 +141,41 @@ def get_expanded_index(
     return float(overlap)
 
 
+def cosine_similarity(
+    expanded: pl.DataFrame, target: pl.DataFrame, col="sequence"
+) -> float:
+    """
+    Function which computes the expanded index of a given string type column of two dataframes.
+
+    ...
+
+    Parameters
+    ----------
+        expanded: First polars DataFrame to compare comprised of only expanded clones
+        target: Second polars DataFrame to compare comprised of all clones
+        col: String type column to compute index upon
+
+    Returns
+    -------
+        A float representation of the index
+    """
+    series1 = expanded.get_column(col).drop_nulls().unique()
+    series2 = target.get_column(col).drop_nulls().unique()
+
+    intersection = series1.filter(series1.is_in(series2))
+    union = pl.concat([series1, series2], rechunk=True).unique()
+
+    assert series1.shape[0] + series2.shape[0] - intersection.shape[0] == union.shape[0]
+
+    if len(union) > 0:
+        overlap = len(intersection) / np.sqrt(series1.shape[0] * series2.shape[0])
+    else:
+        overlap = 0
+
+    return float(overlap)
+
+
+
 def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.float64]:
     jac_index = np.zeros((len(reps), len(reps)), np.float64)
     for i, rep1 in enumerate(reps):
@@ -78,6 +183,43 @@ def get_jaccard_matrix(reps: list[tuple[str, pl.DataFrame]]) -> npt.NDArray[np.f
         for j, rep2 in enumerate(reps[i + 1 :]):
             print(f"Comparing {i}:{rep1[0]} and {i + j + 1}:{rep2[0]}")
             jac_index[i, i + j + 1] = get_jaccard_index(rep1[1], rep2[1])
+    return jac_index
+
+
+def get_jaccard_product_matrix(
+    reps: list[tuple[str, pl.DataFrame]]
+) -> npt.NDArray[np.float64]:
+    jac_index = np.zeros((len(reps), len(reps)), np.float64)
+    for i, rep1 in enumerate(reps):
+        jac_index[i, i] = np.nan
+        for j, rep2 in enumerate(reps[i + 1 :]):
+            print(f"Comparing {i}:{rep1[0]} and {i + j + 1}:{rep2[0]}")
+            jac_index[i, i + j + 1] = get_jaccard_product_index(rep1[1], rep2[1])
+    return jac_index
+
+
+def get_dice_sorensen_matrix(
+    reps: list[tuple[str, pl.DataFrame]]
+) -> npt.NDArray[np.float64]:
+    jac_index = np.zeros((len(reps), len(reps)), np.float64)
+    for i, rep1 in enumerate(reps):
+        jac_index[i, i] = np.nan
+        for j, rep2 in enumerate(reps[i + 1 :]):
+            print(f"Comparing {i}:{rep1[0]} and {i + j + 1}:{rep2[0]}")
+            jac_index[i, i + j + 1] = get_dice_sorensen_index(rep1[1], rep2[1])
+    return jac_index
+
+
+def get_similarity_matrix(
+    reps: list[tuple[str, pl.DataFrame]],
+    func: Callable[[pl.DataFrame, pl.DataFrame], float],
+) -> npt.NDArray[np.float64]:
+    jac_index = np.zeros((len(reps), len(reps)), np.float64)
+    for i, rep1 in enumerate(reps):
+        jac_index[i, i] = np.nan
+        for j, rep2 in enumerate(reps[i + 1 :]):
+            print(f"Comparing {i}:{rep1[0]} and {i + j + 1}:{rep2[0]}")
+            jac_index[i, i + j + 1] = func(rep1[1], rep2[1])
     return jac_index
 
 
