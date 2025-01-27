@@ -6,7 +6,7 @@ def add_p_value_annotation(
     fig,
     array_columns,
     subplot=None,
-    _format=dict(interline=0.07, text_height=1.07, color="black", width=2),
+    _format=dict(interline=0.07, text_height=1.07, color="black", width=2, size=8),
 ):
     """Adds notations giving the p-value between two box plot data (t-test two-sided comparison)
 
@@ -145,7 +145,7 @@ def add_p_value_annotation(
         ## for bars, there is a direct mapping from the bar number to 0, 1, 2...
         fig.add_annotation(
             dict(
-                font=dict(color=_format["color"], size=5),
+                font=dict(color=_format["color"], size=_format["size"]),
                 x=(column_pair[0] + column_pair[1]) / 2,
                 y=y_range[index][1] + _format["text_height"],
                 showarrow=False,

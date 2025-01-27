@@ -43,6 +43,6 @@ if __name__ == "__main__":
     annotate.add_p_value_annotation(
         fig,
         annotation_list,
-        _format=dict(interline=0.02, width=1, text_height=0.03, color="black"),
+        _format=dict(interline=0.02, width=1, text_height=0.03, color="black", size=8),
     )
     fig.write_image("out/tissue_box.png", scale=5)
