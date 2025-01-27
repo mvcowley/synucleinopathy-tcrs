@@ -158,9 +158,12 @@ def expanded_box(data: dict[str, list[float]]) -> go.Figure:
 
     fig.update_layout(
         yaxis=dict(title=dict(text="Expanded Index")),
-        font=dict(size=8),
+        font=dict(size=6),
+        margin=dict(l=30, r=30, t=30, b=30),
+        width=200,
+        height=200,
+        autosize=False,
     )
-    fig.update_layout(width=500, height=500, autosize=False)
     return fig
 
 

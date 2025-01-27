@@ -34,20 +34,20 @@ if __name__ == "__main__":
                 col="clonotype",
             )
             id_expanded[i] |= {
-                f"{chain}-Muscularis -> Dura": expanded_in_me_in_d,
-                f"{chain}-Dura -> Muscularis": expanded_in_d_in_me,
+                f"{chain[0]} M->D": expanded_in_me_in_d,
+                f"{chain[0]} D->M": expanded_in_d_in_me,
             }
 
     # Corrected and confirmed by Seppe on 13/01/2025
-    conditions = {"Control": [5, 6, 7, 8], "Parkinson's": [1, 2, 3, 4]}
-    chains = ["alpha", "beta"]
-    directions = ["Muscularis -> Dura", "Dura -> Muscularis"]
+    conditions = {"HC": [5, 6, 7, 8], "PD": [1, 2, 3, 4]}
+    chains = ["a", "b"]
+    directions = ["M->D", "D->M"]
     sample_overlap = {}
     for condition, condition_indicies in conditions.items():
         for chain in chains:
             for direction in directions:
                 data = [
-                    float(id_expanded[condition_index][f"{chain}-{direction}"])
+                    float(id_expanded[condition_index][f"{chain} {direction}"])
                     for condition_index in condition_indicies
                 ]
                 sample_overlap[f"{condition} {chain.capitalize()} {direction}"] = data
@@ -64,6 +64,6 @@ if __name__ == "__main__":
     annotate.add_p_value_annotation(
         fig,
         annotation_list,
-        _format=dict(interline=0.02, width=1, text_height=0.03, color="black", size=10),
+        _format=dict(interline=0.02, width=1, text_height=0.06, color="black", size=4),
     )
-    fig.write_image("out/expanded_box.png", scale=3)
+    fig.write_image("out/expanded_box.png", scale=5)
