@@ -90,7 +90,13 @@ def cond_box(
 
 def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
-    colors = co.qualitative.Plotly
+    # colors = co.qualitative.Plotly
+    colors = [
+        "rgb(108, 177, 179)",
+        "rgb(183, 178, 171)",
+        "rgb(54, 89, 90)",
+        "rgb(93, 91, 88)",
+    ]
     alpha_colors = [i for i in range(2)]
     beta_colors = [i + 2 for i in range(2)]
     color_index = alpha_colors + beta_colors
@@ -110,12 +116,13 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
             )
         )
 
+
     fig.update_layout(
         yaxis=dict(title=dict(text="Jaccard Index")),
-        font=dict(size=10),
+        font=dict(size=6),
         margin=dict(l=30, r=30, t=30, b=30),
-        width=500,
-        height=500,
+        width=200,
+        height=200,
         autosize=False,
     )
     return fig
@@ -123,7 +130,13 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
 
 def expanded_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
-    colors = co.qualitative.Plotly
+    # colors = co.qualitative.Plotly
+    colors = [
+        "rgb(108, 177, 179)",
+        "rgb(183, 178, 171)",
+        "rgb(54, 89, 90)",
+        "rgb(93, 91, 88)",
+    ]
     alpha_colors = [i for i in range(2)] * 2
     beta_colors = [i + 2 for i in range(2)] * 2
     color_index = alpha_colors + beta_colors

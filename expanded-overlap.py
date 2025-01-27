@@ -64,6 +64,6 @@ if __name__ == "__main__":
     annotate.add_p_value_annotation(
         fig,
         annotation_list,
-        _format=dict(interline=0.02, width=1, text_height=0.03, color="black"),
+        _format=dict(interline=0.02, width=1, text_height=0.03, color="black", size=10),
     )
-    fig.write_image("out/expanded_box.png", scale=5)
+    fig.write_image("out/expanded_box.png", scale=3)

@@ -16,12 +16,16 @@ if __name__ == "__main__":
         filtered_alphas = dcr.filter_tissue(filtered_alphas, ["D", "ME"])
         filtered_betas = dcr.filter_sample_id(beta_reps, i)
         filtered_betas = dcr.filter_tissue(filtered_betas, ["D", "ME"])
-        alpha_jac_mat = stats.get_similarity_matrix(filtered_alphas, stats.get_jaccard_index)
-        beta_jac_mat = stats.get_similarity_matrix(filtered_betas, stats.get_jaccard_index)
+        alpha_jac_mat = stats.get_similarity_matrix(
+            filtered_alphas, stats.get_jaccard_index
+        )
+        beta_jac_mat = stats.get_similarity_matrix(
+            filtered_betas, stats.get_jaccard_index
+        )
         id_overlap[i] = {"Alpha": alpha_jac_mat[0, 1], "Beta": beta_jac_mat[0, 1]}
 
     # Corrected and confirmed by Seppe on 13/01/2025
-    conditions = {"Control": [5, 6, 7, 8], "Parkinson's": [1, 2, 3, 4]}
+    conditions = {"HC": [5, 6, 7, 8], "PD": [1, 2, 3, 4]}
     chains = ["Alpha", "Beta"]
     sample_overlap = {}
     for condition, condition_indicies in conditions.items():
@@ -32,7 +36,9 @@ if __name__ == "__main__":
                 float(id_overlap[condition_index][chain])
                 for condition_index in condition_indicies
             ]
-            sample_overlap[f"{condition} {chain}"] = data
+            sample_overlap[
+                r"{condition} {chain}".format(condition=condition, chain=chain[0])
+            ] = data
 
     sorted_data = {
         k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
@@ -43,6 +49,6 @@ if __name__ == "__main__":
     annotate.add_p_value_annotation(
         fig,
         annotation_list,
-        _format=dict(interline=0.02, width=1, text_height=0.03, color="black", size=8),
+        _format=dict(interline=0.02, width=1, text_height=0.06, color="black", size=4),
     )
     fig.write_image("out/tissue_box.png", scale=5)
