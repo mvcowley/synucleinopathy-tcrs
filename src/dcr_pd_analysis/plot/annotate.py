@@ -85,8 +85,10 @@ def add_p_value_annotation(
             i for i in fig_dict["data"][data_pair[1]]["y"] if i is not None
         ]
 
-        # Get the p-value
-        pvalue = stats.ttest_ind(filtered_data0, filtered_data1, equal_var=False)[1]
+        # Get the p-value modified by n of comparisons
+        pvalue = stats.ttest_ind(filtered_data0, filtered_data1, equal_var=False)[1] * len(array_columns)
+        if pvalue > 1:
+            pvalue = 1
         if pvalue >= 0.05:
             symbol = "ns"
         elif pvalue >= 0.01:
