@@ -1,5 +1,6 @@
 """Plotting functions"""
 
+from collections.abc import Callable
 from typing import Any
 
 import numpy as np
@@ -7,6 +8,7 @@ import numpy.typing as npt
 import plotly.colors as co
 import plotly.graph_objects as go
 import polars as pl
+from plotly.basedatatypes import BaseTraceType
 from plotly.subplots import make_subplots
 
 
@@ -115,7 +117,6 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
                 showlegend=False,
             )
         )
-
 
     fig.update_layout(
         yaxis=dict(title=dict(text="Jaccard Index")),
@@ -308,16 +309,45 @@ def get_bars(df: pl.DataFrame, x: list[str]) -> list[go.Bar]:
     return bars
 
 
+def get_trace(
+    df: pl.DataFrame, x: list[str], colors: list[str], trace: Callable, **kwargs
+) -> list[BaseTraceType]:
+    n_regions = len(x)
+    traces = []
+    for index, row in enumerate(df.iter_rows()):
+        traced = trace(
+            name=row[0],
+            x=x,
+            y=[float(i) for i in row[-n_regions:]],
+            marker_color=colors[index],
+            **kwargs,
+        )
+        traces.append(traced)
+    return traces
+
+
 def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
     fmt_x = [f"{i.split("_")[2]} {i.split("_")[-1]}" for i in x]
     assert len(x) == 2
+    colors = co.qualitative.Plotly
     df = data[x[0]].join(other=data[x[1]], on="clonotype")
     df = df.sort(["frequency", "frequency_right"], descending=True)
     df = df.head(10)
     print(fmt_x, df)
-    bars = get_bars(df, fmt_x)
-    fig = go.Figure(data=bars)
+    bars = get_trace(df, fmt_x, colors, go.Bar, offsetgroup=1)
+    scatters = get_trace(
+        df,
+        fmt_x,
+        colors,
+        go.Scatter,
+        stackgroup="one",
+        showlegend=False,
+        line_shape="spline",
+        offsetgroup=2,
+        line_width=1,
+    )
+    fig = go.Figure(data=scatters + bars)
     fig.update_layout(
         barmode="stack",
         showlegend=True,
