@@ -164,12 +164,19 @@ def expanded_box(data: dict[str, list[float]]) -> go.Figure:
         height=200,
         autosize=False,
     )
+
     return fig
 
 
 def pc_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
-    colors = co.qualitative.Plotly
+    # colors = co.qualitative.Plotly
+    colors = [
+        "rgb(108, 177, 179)",
+        "rgb(183, 178, 171)",
+        "rgb(54, 89, 90)",
+        "rgb(93, 91, 88)",
+    ]
     alpha_colors = [i for i in range(2)] * 2
     beta_colors = [i + 2 for i in range(2)] * 2
     color_index = alpha_colors + beta_colors
@@ -191,8 +198,13 @@ def pc_box(data: dict[str, list[float]]) -> go.Figure:
 
     fig.update_layout(
         yaxis=dict(title=dict(text="Effective Number of Species")),
+        font=dict(size=6),
+        margin=dict(l=30, r=30, t=30, b=30),
+        width=200,
+        height=200,
+        autosize=False,
     )
-    fig.update_layout(width=500, height=500, autosize=False)
+
     return fig
 
 
