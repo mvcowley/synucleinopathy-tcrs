@@ -137,8 +137,8 @@ def expanded_box(data: dict[str, list[float]]) -> go.Figure:
         "rgb(54, 89, 90)",
         "rgb(93, 91, 88)",
     ]
-    alpha_colors = [i for i in range(2)] * 2
-    beta_colors = [i + 2 for i in range(2)] * 2
+    alpha_colors = [i for i in range(2)]
+    beta_colors = [i + 2 for i in range(2)]
     color_index = alpha_colors + beta_colors
     for (name, values), color in zip(data.items(), color_index):
         fig.add_trace(

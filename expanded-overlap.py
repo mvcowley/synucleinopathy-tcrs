@@ -28,20 +28,21 @@ if __name__ == "__main__":
                 filtered[f"dcr_PKD_D{i}_1_{chain}"],
                 col="clonotype",
             )
-            expanded_in_d_in_me = stats.get_expanded_index(
-                expanded[f"dcr_PKD_D{i}_1_{chain}"],
-                filtered[f"dcr_PKD_ME{i}_1_{chain}"],
-                col="clonotype",
-            )
+            # expanded_in_d_in_me = stats.get_expanded_index(
+            #     expanded[f"dcr_PKD_D{i}_1_{chain}"],
+            #     filtered[f"dcr_PKD_ME{i}_1_{chain}"],
+            #     col="clonotype",
+            # )
             id_expanded[i] |= {
                 f"{chain[0]} M->D": expanded_in_me_in_d,
-                f"{chain[0]} D->M": expanded_in_d_in_me,
+                # f"{chain[0]} D->M": expanded_in_d_in_me,
             }
 
     # Corrected and confirmed by Seppe on 13/01/2025
     conditions = {"HC": [5, 6, 7, 8], "PD": [1, 2, 3, 4]}
     chains = ["a", "b"]
-    directions = ["M->D", "D->M"]
+    # directions = ["M->D", "D->M"]
+    directions = ["M->D"]
     sample_overlap = {}
     for condition, condition_indicies in conditions.items():
         for chain in chains:
