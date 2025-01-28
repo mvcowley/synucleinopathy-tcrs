@@ -94,10 +94,10 @@ def tissue_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
     # colors = co.qualitative.Plotly
     colors = [
-        "rgb(108, 177, 179)",
         "rgb(183, 178, 171)",
-        "rgb(54, 89, 90)",
+        "rgb(108, 177, 179)",
         "rgb(93, 91, 88)",
+        "rgb(54, 89, 90)",
     ]
     alpha_colors = [i for i in range(2)]
     beta_colors = [i + 2 for i in range(2)]
@@ -133,10 +133,10 @@ def expanded_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
     # colors = co.qualitative.Plotly
     colors = [
-        "rgb(108, 177, 179)",
         "rgb(183, 178, 171)",
-        "rgb(54, 89, 90)",
+        "rgb(108, 177, 179)",
         "rgb(93, 91, 88)",
+        "rgb(54, 89, 90)",
     ]
     alpha_colors = [i for i in range(2)]
     beta_colors = [i + 2 for i in range(2)]
@@ -173,10 +173,10 @@ def pc_box(data: dict[str, list[float]]) -> go.Figure:
     fig = go.Figure()
     # colors = co.qualitative.Plotly
     colors = [
-        "rgb(108, 177, 179)",
         "rgb(183, 178, 171)",
-        "rgb(54, 89, 90)",
+        "rgb(108, 177, 179)",
         "rgb(93, 91, 88)",
+        "rgb(54, 89, 90)",
     ]
     alpha_colors = [i for i in range(2)] * 2
     beta_colors = [i + 2 for i in range(2)] * 2
