@@ -348,13 +348,14 @@ def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
         showlegend=False,
         line_shape="spline",
         offsetgroup=2,
-        line_width=0.5,
+        line_width=0.1,
     )
     fig = go.Figure(data=scatters + bars)
     fig.update_layout(
         barmode="stack",
         showlegend=True,
         yaxis=dict(title=dict(text="Clonotype molecule frequency")),
+        margin=dict(l=30, r=30, t=30, b=30),
     )
     return fig
 
