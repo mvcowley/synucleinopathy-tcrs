@@ -86,7 +86,7 @@ def add_p_value_annotation(
         ]
 
         # Get the p-value
-        pvalue = stats.mannwhitneyu(filtered_data0, filtered_data1)[1]
+        pvalue = stats.ttest_ind(filtered_data0, filtered_data1, equal_var=False)[1]
         if pvalue >= 0.05:
             symbol = "ns"
         elif pvalue >= 0.01:
