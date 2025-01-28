@@ -67,4 +67,4 @@ if __name__ == "__main__":
         annotation_list,
         _format=dict(interline=0.02, width=1, text_height=0.06, color="black", size=4),
     )
-    fig.write_image("out/expanded_box.png", scale=5)
+    fig.write_image("out/expanded_box.svg", scale=5)
