@@ -38,4 +38,11 @@ if __name__ == "__main__":
     sorted_data = {key:box_data[key] for key in sorted(box_data.keys())}
 
     fig = plot.pc_box(sorted_data)
+    annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
+    print(annotation_list)
+    annotate.add_p_value_annotation(
+        fig,
+        annotation_list,
+        _format=dict(interline=0.02, width=1, text_height=0.06, color="black", size=4),
+    )
     fig.write_image("out/pc_box.png", scale=5)
