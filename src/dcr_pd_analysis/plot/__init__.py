@@ -328,7 +328,10 @@ def get_trace(
 
 def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
-    fmt_x = [f"{i.split("_")[2]} {i.split("_")[-1]}" for i in x]
+    fmt_x = [
+        f"{i.split("_")[2][:-1]} {i.split("_")[2][-1]} {i.split("_")[-1][0].capitalize()}"
+        for i in x
+    ]
     assert len(x) == 2
     colors = co.qualitative.Plotly
     df = data[x[0]].join(other=data[x[1]], on="clonotype")
@@ -345,7 +348,7 @@ def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
         showlegend=False,
         line_shape="spline",
         offsetgroup=2,
-        line_width=1,
+        line_width=0.5,
     )
     fig = go.Figure(data=scatters + bars)
     fig.update_layout(
