@@ -360,6 +360,45 @@ def stacked_bar(data: dict[str, pl.DataFrame]) -> go.Figure:
     return fig
 
 
+def stacked_bar_si(data: dict[str, pl.DataFrame]) -> go.Figure:
+    x = list(data.keys())
+    fmt_x = [
+        f"{i.split("_")[2][:-1]} {i.split("_")[2][-1]} {i.split("_")[-1][0].capitalize()}"
+        for i in x
+    ]
+    assert len(x) == 2
+    colors = co.qualitative.Plotly
+    df = data[x[0]].join(other=data[x[1]], on="clonotype")
+    df = df.sort(["frequency", "frequency_right"], descending=True)
+    df = df.head(10)
+    print(fmt_x, df)
+    bars = get_trace(df, fmt_x, colors, go.Bar, offsetgroup=1)
+    scatters = get_trace(
+        df,
+        fmt_x,
+        colors,
+        go.Scatter,
+        stackgroup="one",
+        showlegend=False,
+        line_shape="spline",
+        offsetgroup=2,
+        line_width=0.1,
+    )
+    fig = go.Figure(data=scatters + bars)
+    fig.update_layout(
+        barmode="stack",
+        showlegend=True,
+        yaxis=dict(title=dict(text="Clonotype molecule frequency")),
+        margin=dict(l=30, r=30, t=30, b=30),
+        font=dict(family="Arial", size=18),
+        width=600,
+        height=400,
+        autosize=False,
+        legend=dict(font=dict(size=12), itemwidth=30),
+    )
+    return fig
+
+
 def alluvial(data: dict[str, pl.DataFrame]) -> go.Figure:
     x = list(data.keys())
     assert len(x) == 2

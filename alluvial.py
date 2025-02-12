@@ -24,7 +24,7 @@ if __name__ == "__main__":
                 for name, tissue in filtered.items()
             }
             for overlap in filtered.keys():
-                fig = plot.stacked_bar(filtered[overlap])
+                fig = plot.stacked_bar_si(filtered[overlap])
                 fig.write_image(
-                    f"out/alluvial/{i}_{chain}_{overlap}_alluvial.svg", scale=5
+                    f"out/alluvial/si/{i}_{chain}_{overlap}_alluvial.svg", scale=5
                 )
