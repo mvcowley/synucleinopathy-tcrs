@@ -391,8 +391,8 @@ def stacked_bar_si(data: dict[str, pl.DataFrame]) -> go.Figure:
         yaxis=dict(title=dict(text="Clonotype molecule frequency")),
         margin=dict(l=30, r=30, t=30, b=30),
         font=dict(family="Arial", size=18),
-        width=600,
-        height=400,
+        width=550,
+        height=300,
         autosize=False,
         legend=dict(font=dict(size=12), itemwidth=30),
     )
