@@ -1,3 +1,5 @@
+import polars as pl
+
 from dcr_pd_analysis import dcr, plot, stats
 from dcr_pd_analysis.plot import annotate
 
@@ -43,6 +45,9 @@ if __name__ == "__main__":
     sorted_data = {
         k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
     }
+
+    export = pl.from_dict(sorted_data)
+    export.write_csv("./out/jaccard_data.csv")
 
     fig = plot.tissue_box(sorted_data)
     annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]

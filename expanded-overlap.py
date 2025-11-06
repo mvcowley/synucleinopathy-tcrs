@@ -59,6 +59,9 @@ if __name__ == "__main__":
 
     print(sorted_data)
 
+    export = pl.from_dict(sorted_data)
+    export.write_csv("./out/expanded_data.csv")
+
     fig = plot.expanded_box(sorted_data)
     annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
     print(annotation_list)
