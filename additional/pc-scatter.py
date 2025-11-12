@@ -7,10 +7,10 @@ from dcr_pd_analysis.plot import annotate
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
     )
     beta_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
     )
     reps = alpha_reps + beta_reps
 
@@ -27,4 +27,4 @@ if __name__ == "__main__":
     print(var_pc)
 
     fig = plot.pc_scatter(pc, var_pc)
-    fig.write_image("out/pc_scatter.png", scale=5)
+    fig.write_image("../out/pc_scatter.png", scale=5)

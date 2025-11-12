@@ -5,10 +5,10 @@ from dcr_pd_analysis.plot import annotate
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
     )
     beta_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
     )
 
     N = 8
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     }
 
     export = pl.from_dict(sorted_data)
-    export.write_csv("./out/jaccard_data.csv")
+    export.write_csv("../out/jaccard_data.csv")
 
     export_stats = []
     for k, v in sorted_data.items():
@@ -56,7 +56,7 @@ if __name__ == "__main__":
         export_stats.append(row)
 
     export_stats = pl.DataFrame(export_stats)
-    export_stats.write_csv(f"./out/fig3r_boxplot_stats.csv")
+    export_stats.write_csv(f"../out/fig3r_boxplot_stats.csv")
 
     fig = plot.tissue_box(sorted_data)
     annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
@@ -65,4 +65,4 @@ if __name__ == "__main__":
         annotation_list,
         _format=dict(interline=0.02, width=1, text_height=0.06, color="black", size=4),
     )
-    fig.write_image("out/tissue_box.svg", scale=5)
+    fig.write_image("../out/tissue_box.svg", scale=5)

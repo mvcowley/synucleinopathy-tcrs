@@ -2,10 +2,10 @@ from dcr_pd_analysis import dcr, plot, stats
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
     )
     beta_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
     )
     N = 8
     DURA = 1
@@ -33,4 +33,4 @@ if __name__ == "__main__":
         ["Alpha", "Beta"],
         ["Control", "Parkinsons"],
     )
-    fig.write_image(f"out/box_ind_me_d_overlap.png", scale=5)
+    fig.write_image(f"../out/box_ind_me_d_overlap.png", scale=5)

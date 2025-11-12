@@ -2,10 +2,10 @@ from dcr_pd_analysis import dcr, plot, stats
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
     )
     beta_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
     )
 
     alpha_vregions = dcr.get_vregions(alpha_reps)
@@ -30,4 +30,4 @@ if __name__ == "__main__":
             vregions = dcr.get_vregions_from_clonotype(overlaps)
             vregions = dcr.add_freq_col(vregions, col="clonotype_count")
             fig = plot.vregions(vregions, background)
-            fig.write_image(f"out/vregion/{i}_{chain}_vusage.png", scale=5)
+            fig.write_image(f"../out/vregion/{i}_{chain}_vusage.png", scale=5)
