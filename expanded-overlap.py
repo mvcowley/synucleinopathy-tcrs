@@ -57,10 +57,17 @@ if __name__ == "__main__":
         k: v for k, v in sorted(sample_overlap.items(), key=lambda item: item[0][::-1])
     }
 
-    print(sorted_data)
-
     export = pl.from_dict(sorted_data)
     export.write_csv("./out/expanded_data.csv")
+
+    export_stats = []
+    for k, v in sorted_data.items():
+        row = {"category": k}
+        row.update(stats.get_boxplot_stats(v))
+        export_stats.append(row)
+
+    export_stats = pl.DataFrame(export_stats)
+    export_stats.write_csv(f"./out/fig3t_boxplot_stats.csv")
 
     fig = plot.expanded_box(sorted_data)
     annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
