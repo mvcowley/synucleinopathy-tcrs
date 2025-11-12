@@ -2,10 +2,10 @@ from dcr_pd_analysis import dcr, plot, stats
 
 if __name__ == "__main__":
     alpha_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*alpha*tsv", expected=32
     )
     beta_reps = dcr.load_reps(
-        "../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
+        "../../data/tcrseqgroup/translated/", glob="*PKD*beta*tsv", expected=32
     )
 
     N = 8
@@ -19,4 +19,4 @@ if __name__ == "__main__":
             venn = stats.get_venn_counts(cg_clones)
             labels = list(cg_clones.keys())
             fig = plot.venn3(venn, *labels)
-            fig.write_image(f"out/{i}_{chain}_venn.png", scale=5)
+            fig.write_image(f"../out/{i}_{chain}_venn.png", scale=5)

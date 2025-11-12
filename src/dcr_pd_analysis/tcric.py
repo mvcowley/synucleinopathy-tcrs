@@ -14,4 +14,4 @@ def make_csv(queries: dict[str, pl.Series], chain: str) -> None:
             split_clonotype(2, f"J{chain.capitalize()}.gene"),
         )
         clones = clones.drop("clonotype")
-        clones.write_csv(f"out/query/{overlap}.csv")
+        clones.write_csv(f"../out/query/{overlap}.csv")
