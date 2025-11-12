@@ -49,6 +49,15 @@ if __name__ == "__main__":
     export = pl.from_dict(sorted_data)
     export.write_csv("./out/jaccard_data.csv")
 
+    export_stats = []
+    for k, v in sorted_data.items():
+        row = {"category": k}
+        row.update(stats.get_boxplot_stats(v))
+        export_stats.append(row)
+
+    export_stats = pl.DataFrame(export_stats)
+    export_stats.write_csv(f"./out/fig3r_boxplot_stats.csv")
+
     fig = plot.tissue_box(sorted_data)
     annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
     annotate.add_p_value_annotation(
