@@ -14,5 +14,21 @@ pip install .
 
 ## Structure
 
-All plots used in the manuscript are located within `./publication/`.
-Additional plots are located in `./additional/`.
+All plots used in the manuscript are located within `./publication/`. Additional
+plots are located in `./additional/`.
+
+## Data
+
+All data used in these plots can be obtained from the SRA: PRJNA1321765. To
+obtain aligned repertoires, use
+![https://github.com/innate2adaptive/Decombinator](decombinator).
+
+Example command:
+
+```shell
+decombinator pipeline -c <chain> -in <filename> -br R2 -sp mouse -bl 42 -ol M13
+```
+
+See the readme of
+![https://github.com/innate2adaptive/Decombinator](decombinator) for further
+details.
