@@ -309,3 +309,35 @@ def get_venn2_clones(reps: dict[str, list[str]]) -> dict[str, set[str]]:
             venn[f"{rep1_name}_&_{rep2_name}"] = set1 & set2
 
     return venn
+
+def get_boxplot_stats(values: list[float]) -> dict:
+    """
+    Calculate boxplot statistics for a list of values.
+    
+    Returns:
+        dict with keys: min, max, q1, median, q3, lower_whisker, upper_whisker
+    """
+    values_array = np.array(values)
+    
+    # Basic statistics
+    q1 = np.percentile(values_array, 25)  # First quartile (25th percentile)
+    median = np.percentile(values_array, 50)  # Median (50th percentile)
+    q3 = np.percentile(values_array, 75)  # Third quartile (75th percentile)
+    
+    # IQR (Interquartile Range)
+    iqr = q3 - q1
+    
+    # Whiskers (Plotly uses 1.5 * IQR by default)
+    lower_whisker = max(values_array.min(), q1 - 1.5 * iqr)
+    upper_whisker = min(values_array.max(), q3 + 1.5 * iqr)
+    
+    return {
+        'min': values_array.min(),
+        'max': values_array.max(),
+        'q1': q1,  # Lower bound of box (25th percentile)
+        'median': median,  # Center line (50th percentile)
+        'q3': q3,  # Upper bound of box (75th percentile)
+        'lower_whisker': lower_whisker,
+        'upper_whisker': upper_whisker,
+        'iqr': iqr
+    }
