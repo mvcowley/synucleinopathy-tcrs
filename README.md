@@ -21,7 +21,7 @@ plots are located in `./additional/`.
 
 All data used in these plots can be obtained from the SRA: PRJNA1321765. To
 obtain aligned repertoires, use
-![decombinator](https://github.com/innate2adaptive/Decombinator).
+[decombinator](https://github.com/innate2adaptive/Decombinator).
 
 Example command:
 
@@ -30,5 +30,5 @@ decombinator pipeline -c <chain> -in <filename> -br R2 -sp mouse -bl 42 -ol M13
 ```
 
 See the readme of
-![decombinator](https://github.com/innate2adaptive/Decombinator) for further
+[decombinator](https://github.com/innate2adaptive/Decombinator) for further
 details.
