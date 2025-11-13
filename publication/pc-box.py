@@ -37,6 +37,19 @@ if __name__ == "__main__":
     sorted_data = sorted(box_data)
     sorted_data = {key: box_data[key] for key in sorted(box_data.keys())}
 
+    export = pl.from_dict(sorted_data)
+    export.write_csv("../out/eff_species_data.csv")
+
+    export_stats = []
+    for k, v in sorted_data.items():
+        row = {"category": k}
+        row.update(stats.get_boxplot_stats(v))
+        export_stats.append(row)
+
+    export_stats = pl.DataFrame(export_stats)
+    export_stats.write_csv(f"../out/si_fig5a_boxplot_stats.csv")
+
+
     fig = plot.pc_box(sorted_data)
     annotation_list = [[i, i + 1] for i in range(0, len(sorted_data), 2)]
     print(annotation_list)
