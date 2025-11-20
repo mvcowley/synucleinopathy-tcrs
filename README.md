@@ -2,6 +2,8 @@
 
 This repository holds scripts for generating figures for the manuscript:
 Intestinal Macrophages Modulate Brain Synucleinopathy in Parkinson’s disease.
+This paper is not yet publicly available, but this repo will be updated with a
+link upon release.
 
 ## Installation
 
