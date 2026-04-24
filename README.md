@@ -1,9 +1,7 @@
 # T-cell receptor analysis of synucleinopathy
 
 This repository holds scripts for generating the T-cell receptor repertoire
-analysis figures for the manuscript: Intestinal Macrophages Modulate Brain
-Synucleinopathy in Parkinson’s disease. This paper is not yet publicly
-available, but this repo will be updated with a link upon release.
+analysis figures for the manuscript: [Intestinal macrophages modulate synucleinopathy along the gut–brain axis](https://www.nature.com/articles/s41586-025-09984-y). 
 
 ## Installation
 
